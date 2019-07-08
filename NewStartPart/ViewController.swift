@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        let input = TYNormalInput(frame: CGRect(x: 100, y: 100, width: 200, height: 100))
+        let input = TYNormalInput(frame: CGRect(x: 100, y: 100, width: 200, height: 100), hasSecureButton: true)
         input.labelText = "FIRST NAME"
         input.labelKern = 2
         input.labelColor = UIColor.blue

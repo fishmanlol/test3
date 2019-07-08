@@ -9,72 +9,27 @@
 import UIKit
 
 class TYNormalInput: TYInput {
-    private weak var textField: TYTextField!
-    private var bottomLineLayer: CALayer!
+    private var secureButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray]
     
     lazy var secureButton: UIButton = {
-        let button = UIButton(type: .system)
-        textField.rightView = button
+        let button = UIButton(type: .custom)
+        let attributedHide = NSAttributedString(string: "hide", attributes: secureButtonAttributes)
+        let attributedShow = NSAttributedString(string: "show", attributes: secureButtonAttributes)
+        button.setAttributedTitle(attributedHide, for: .normal)
+        button.setAttributedTitle(attributedShow, for: .selected)
+        button.frame.size = CGSize(width: button.intrinsicContentSize.width + 10, height: textField!.height)
+        button.addTarget(self, action: #selector(secureButtonTapped), for: .touchUpInside)
         return button
     }()
     
     //Public
-    var bottomLineHeight: CGFloat = 1.0 {
-        didSet {
-            updateBottomLineHeight(to: bottomLineHeight)
-        }
-    }
-    
-    var bottomLineColor: UIColor = UIColor.black {
-        didSet {
-            updateBottomLineColor(to: bottomLineColor)
-        }
-    }
-    
     var textKern: CGFloat {
         get {
-            return textField.kern
+            return textField!.kern
         }
         
         set {
-            textField.kern = newValue
-        }
-    }
-    
-    private var hasSecureButton: Bool = false {
-        didSet {
-            
-        }
-    }
-    
-    //Overrides
-    override var text: String! {
-        get {
-            return textField.text
-        }
-
-        set {
-            textField.text = newValue
-        }
-    }
-    
-    override var textFont: UIFont! {
-        get {
-            return textField.font
-        }
-        
-        set {
-            textField.font = newValue
-        }
-    }
-    
-    override var textColor: UIColor! {
-        get {
-            return textField.textColor
-        }
-        
-        set {
-            textField.textColor = newValue
+            textField!.kern = newValue
         }
     }
     
@@ -82,12 +37,13 @@ class TYNormalInput: TYInput {
         self.init(frame: frame)
         
         if hasSecureButton {
-            self.hasSecureButton = hasSecureButton
+            textField!.rightView = secureButton
+            textField!.rightViewMode = .always
         }
     }
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(f: frame)
         viewsSetup()
         viewsLayout()
         setup()
@@ -98,42 +54,25 @@ class TYNormalInput: TYInput {
     }
     
     private func viewsSetup() {
-        let textField = TYTextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        self.textField = textField
-        addSubview(textField)
+
     }
     
     private func viewsLayout() {
-        textField.topAnchor.constraint(equalTo: textViewLayoutGuide.topAnchor).isActive = true
-        textField.leftAnchor.constraint(equalTo: textViewLayoutGuide.leftAnchor).isActive = true
-        textField.rightAnchor.constraint(equalTo: textViewLayoutGuide.rightAnchor).isActive = true
-        textField.bottomAnchor.constraint(equalTo: textViewLayoutGuide.bottomAnchor).isActive = true
+
     }
     
     private func setup() {
-        addBottomLine()
+    
     }
     
-    private func addBottomLine() {
-        let bottomLineLayer = CALayer()
-        self.bottomLineLayer = bottomLineLayer
-        updateBottomLineHeight(to: bottomLineHeight)
-        updateBottomLineColor(to: bottomLineColor)
-        layer.addSublayer(bottomLineLayer)
+    
+    @objc private func secureButtonTapped(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        hideText(sender.isSelected)
     }
     
-    private func updateBottomLineHeight(to newHeight: CGFloat) {
-        bottomLineLayer.frame = CGRect(x: 0, y: height - newHeight, width: width, height: newHeight)
+    private func hideText(_ hide: Bool) {
+        textField!.isSecureTextEntry = hide ? true : false
     }
-    
-    private func updateBottomLineColor(to newColor: UIColor) {
-        bottomLineLayer.backgroundColor = newColor.cgColor
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        updateBottomLineHeight(to: bottomLineHeight)
-    }
+
 }
