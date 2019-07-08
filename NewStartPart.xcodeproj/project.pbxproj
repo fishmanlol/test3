@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */; };
+		1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE422D2E3E700F5154E /* TYTextField.swift */; };
+		1030CDE822D2E73F00F5154E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE722D2E73F00F5154E /* UIView.swift */; };
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYNormalInput.swift; sourceTree = "<group>"; };
+		1030CDE422D2E3E700F5154E /* TYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYTextField.swift; sourceTree = "<group>"; };
+		1030CDE722D2E73F00F5154E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		8E2DBF1422CD25DA00EC71FD /* NewStartPart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewStartPart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,7 +63,10 @@
 				8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */,
 				8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */,
 				8E2DBF2B22CD315500EC71FD /* TYInput.swift */,
+				1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */,
 				8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */,
+				1030CDE422D2E3E700F5154E /* TYTextField.swift */,
+				1030CDE722D2E73F00F5154E /* UIView.swift */,
 				8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */,
 				8E2DBF2522CD25DC00EC71FD /* Info.plist */,
 			);
@@ -134,6 +143,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */,
+				1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */,
+				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
+				1030CDE822D2E73F00F5154E /* UIView.swift in Sources */,
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
 				8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */,
