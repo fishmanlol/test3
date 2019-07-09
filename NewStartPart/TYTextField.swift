@@ -8,9 +8,13 @@
 
 import UIKit
 
-class TYTextField: UITextField {
+class TYTextField: UITextField, TextAreaView {
     
-    private var bottomLineLayer: CALayer?
+    
+    var textFont: UIFont
+    
+    
+    private var bottomLineLayer: CALayer!
     
     //Bottom line
     var bottomLineHeight: CGFloat = 1.0 {
@@ -35,7 +39,18 @@ class TYTextField: UITextField {
         }
     }
     
-    override var text: String! {
+    public override var text: String? {
+        get {
+            return super.text ?? ""
+        }
+        
+        set {
+            guard let newValue = newValue else { return }
+            attributedText = NSAttributedString(string: newValue, attributes: defaultTextAttributes)
+        }
+    }
+    
+    var _text: String {
         get {
             return super.text ?? ""
         }
@@ -45,7 +60,7 @@ class TYTextField: UITextField {
         }
     }
     
-    override var textColor: UIColor! {
+    var textColor: UIColor {
         get {
             return super.textColor ?? tintColor
         }
@@ -73,11 +88,11 @@ class TYTextField: UITextField {
     }
     
     private func updateBottomLineHeight(to newHeight: CGFloat) {
-        bottomLineLayer?.frame = CGRect(x: 0, y: height - newHeight, width: width, height: newHeight)
+        bottomLineLayer.frame = CGRect(x: 0, y: height - newHeight, width: width, height: newHeight)
     }
     
     private func updateBottomLineColor(to newColor: UIColor) {
-        bottomLineLayer?.backgroundColor = newColor.cgColor
+        bottomLineLayer.backgroundColor = newColor.cgColor
     }
     
     override func layoutSubviews() {

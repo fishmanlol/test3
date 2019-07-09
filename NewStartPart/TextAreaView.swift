@@ -10,12 +10,8 @@ import Foundation
 import UIKit
 
 protocol TextAreaView: class {
-    var text: String {get set}
-    var textColor: UIColor {get set}
-    var textFont: UIFont {get set}
-    var kern: CGFloat {get set}
-}
-
-extension TextAreaView where Self: UIView {
-    
+    var _text: String {get set}
+    var _textColor: UIColor {get set}
+    var _textFont: UIFont {get set}
+    var _kern: CGFloat {get set}
 }

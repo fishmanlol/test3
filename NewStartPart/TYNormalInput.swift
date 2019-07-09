@@ -10,6 +10,7 @@ import UIKit
 
 class TYNormalInput: TYInput {
     private var secureButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray]
+    weak var textField: TYTextField!
     
     lazy var secureButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -22,49 +23,19 @@ class TYNormalInput: TYInput {
         return button
     }()
     
-    //Public
-    var textKern: CGFloat {
-        get {
-            return textField!.kern
-        }
-        
-        set {
-            textField!.kern = newValue
-        }
-    }
-    
-    convenience init(frame: CGRect, hasSecureButton: Bool = false) {
-        self.init(frame: frame)
+    init(frame: CGRect, hasSecureButton: Bool = false) {
+        let textField = TYTextField()
+        super.init(frame: frame, textAreaView: textField)
         
         if hasSecureButton {
-            textField!.rightView = secureButton
-            textField!.rightViewMode = .always
+            textField.rightView = secureButton
+            textField.rightViewMode = .always
         }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(f: frame)
-        viewsSetup()
-        viewsLayout()
-        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    private func viewsSetup() {
-
-    }
-    
-    private func viewsLayout() {
-
-    }
-    
-    private func setup() {
-    
-    }
-    
     
     @objc private func secureButtonTapped(sender: UIButton) {
         sender.isSelected = !sender.isSelected

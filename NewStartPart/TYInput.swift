@@ -23,11 +23,11 @@ internal class TYInput: UIView {
     
     public var text: String {
         get {
-            return textAreaView.text
+            return textAreaView._text
         }
         
         set {
-            textAreaView.text = newValue
+            textAreaView._text = newValue
         }
     }
     
@@ -43,11 +43,11 @@ internal class TYInput: UIView {
     }
     public var textFont: UIFont {
         get {
-            return textAreaView.textFont
+            return textAreaView._textFont
         }
         
         set {
-            textAreaView.textFont = newValue
+            textAreaView._textFont = newValue
         }
     }
     
@@ -64,11 +64,11 @@ internal class TYInput: UIView {
     
     public var textColor: UIColor {
         get {
-            return textAreaView.textColor
+            return textAreaView._textColor
         }
         
         set {
-            textAreaView.textColor = newValue
+            textAreaView._textColor = newValue
         }
     }
     
@@ -85,11 +85,11 @@ internal class TYInput: UIView {
     
     public var textKern: CGFloat {
         set {
-            textAreaView.kern = newValue
+            textAreaView._kern = newValue
         }
         
         get {
-            return textAreaView.kern
+            return textAreaView._kern
         }
     }
     
@@ -99,60 +99,33 @@ internal class TYInput: UIView {
     
     init(frame: CGRect, textAreaView: TextAreaView) {
         super.init(frame: frame)
-        self.textAreaView = textAreaView
-        viewsSetup()
-        viewsLayout()
-        setup()
-    
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        viewsSetup()
-        viewsLayout()
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        viewsSetup()
-    }
-    
-    private func viewsSetup() {
+        
         let label = TYLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         self.label = label
         addSubview(label)
+        
+        self.textAreaView = textAreaView
+        (textAreaView as! UIView).translatesAutoresizingMaskIntoConstraints = false
+        addSubview((textAreaView as! UIView))
     }
     
-    private func viewsLayout() {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         label.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        label.bottomAnchor.constraint(greaterThanOrEqualTo: textAreaView.topAnchor).isActive = true
+        label.bottomAnchor.constraint(greaterThanOrEqualTo: (textAreaView as! UIView).topAnchor).isActive = true
         
-        textAreaView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        textAreaView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        textAreaView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        textAreaView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        textAreaView.heightAnchor.constraint(equalToConstant: 24).priority = .defaultHigh
-    }
-    
-    private func setup() {
-        labelText = ""
-        labelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
-        labelColor = UIColor.black
-    }
-    
-    private func textFieldSetup() {
-        let textField = TYTextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        self.textField = textField
-        addSubview(textField)
-        
-        textField.topAnchor.constraint(equalTo: textViewLayoutGuide.topAnchor).isActive = true
-        textField.leftAnchor.constraint(equalTo: textViewLayoutGuide.leftAnchor).isActive = true
-        textField.rightAnchor.constraint(equalTo: textViewLayoutGuide.rightAnchor).isActive = true
-        textField.bottomAnchor.constraint(equalTo: textViewLayoutGuide.bottomAnchor).isActive = true
+        (textAreaView as! UIView).leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        (textAreaView as! UIView).rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        (textAreaView as! UIView).bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        (textAreaView as! UIView).heightAnchor.constraint(equalToConstant: 24).isActive = true
+        (textAreaView as! UIView).heightAnchor.constraint(equalToConstant: 24).priority = .defaultHigh
     }
 }
