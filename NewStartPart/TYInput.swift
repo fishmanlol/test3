@@ -21,16 +21,6 @@ internal class TYInput: UIView {
         }
     }
     
-    public var text: String {
-        get {
-            return textAreaView._text
-        }
-        
-        set {
-            textAreaView._text = newValue
-        }
-    }
-    
     //Fonts
     public var labelFont: UIFont! {
         set {
@@ -39,15 +29,6 @@ internal class TYInput: UIView {
         
         get {
             return label.font
-        }
-    }
-    public var textFont: UIFont {
-        get {
-            return textAreaView._textFont
-        }
-        
-        set {
-            textAreaView._textFont = newValue
         }
     }
     
@@ -62,16 +43,6 @@ internal class TYInput: UIView {
         }
     }
     
-    public var textColor: UIColor {
-        get {
-            return textAreaView._textColor
-        }
-        
-        set {
-            textAreaView._textColor = newValue
-        }
-    }
-    
     //Kern
     public var labelKern: CGFloat {
         set {
@@ -83,35 +54,30 @@ internal class TYInput: UIView {
         }
     }
     
-    public var textKern: CGFloat {
-        set {
-            textAreaView._kern = newValue
-        }
-        
-        get {
-            return textAreaView._kern
-        }
-    }
-    
     //Views
-    internal var label: TYLabel!
-    internal var textAreaView: TextAreaView!
+    var label: TYLabel!
+    lazy var textAreaView: UIView = {
+        let textAreaView = UIView()
+        textAreaView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textAreaView)
+        return textAreaView
+    }()
     
-    init(frame: CGRect, textAreaView: TextAreaView) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        let label = TYLabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        self.label = label
-        addSubview(label)
-        
-        self.textAreaView = textAreaView
-        (textAreaView as! UIView).translatesAutoresizingMaskIntoConstraints = false
-        addSubview((textAreaView as! UIView))
+
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    private func setup() {
+        let label = TYLabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        self.label = label
+        addSubview(label)
     }
     
     override func layoutSubviews() {
@@ -120,12 +86,11 @@ internal class TYInput: UIView {
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         label.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        label.bottomAnchor.constraint(greaterThanOrEqualTo: (textAreaView as! UIView).topAnchor).isActive = true
         
-        (textAreaView as! UIView).leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        (textAreaView as! UIView).rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        (textAreaView as! UIView).bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        (textAreaView as! UIView).heightAnchor.constraint(equalToConstant: 24).isActive = true
-        (textAreaView as! UIView).heightAnchor.constraint(equalToConstant: 24).priority = .defaultHigh
+        textAreaView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        textAreaView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        textAreaView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        textAreaView.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        textAreaView.heightAnchor.constraint(equalToConstant: 24).priority = .defaultHigh
     }
 }

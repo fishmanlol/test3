@@ -11,12 +11,15 @@
 		1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE422D2E3E700F5154E /* TYTextField.swift */; };
 		1030CDE822D2E73F00F5154E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE722D2E73F00F5154E /* UIView.swift */; };
 		104FEE5922D39116006AA2F7 /* TYPhoneNumberInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */; };
-		104FEE5B22D39AEC006AA2F7 /* TextAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104FEE5A22D39AEC006AA2F7 /* TextAreaView.swift */; };
+		10B779CA22D4E0B6004E1532 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779C922D4E0B6004E1532 /* Country.swift */; };
+		10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779CB22D4EB27004E1532 /* CountryListController.swift */; };
+		10B779CE22D4ED04004E1532 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = 10B779CD22D4ED04004E1532 /* countries */; };
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
 		8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2B22CD315500EC71FD /* TYInput.swift */; };
 		8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */; };
+		ADB8204D9D77586A6078C914 /* Pods_NewStartPart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +27,10 @@
 		1030CDE422D2E3E700F5154E /* TYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYTextField.swift; sourceTree = "<group>"; };
 		1030CDE722D2E73F00F5154E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYPhoneNumberInput.swift; sourceTree = "<group>"; };
-		104FEE5A22D39AEC006AA2F7 /* TextAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaView.swift; sourceTree = "<group>"; };
+		10B779C922D4E0B6004E1532 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		10B779CB22D4EB27004E1532 /* CountryListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListController.swift; sourceTree = "<group>"; };
+		10B779CD22D4ED04004E1532 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = countries; sourceTree = "<group>"; };
+		22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewStartPart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1422CD25DA00EC71FD /* NewStartPart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewStartPart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,6 +38,8 @@
 		8E2DBF2522CD25DC00EC71FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E2DBF2B22CD315500EC71FD /* TYInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYInput.swift; sourceTree = "<group>"; };
 		8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYLabel.swift; sourceTree = "<group>"; };
+		9BAE0BA8926FB694949C6F6A /* Pods-NewStartPart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.debug.xcconfig"; sourceTree = "<group>"; };
+		D69069F5513A3F160C23F628 /* Pods-NewStartPart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADB8204D9D77586A6078C914 /* Pods_NewStartPart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D4CFB5B9F0505CA0776CFD3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8E2DBF0B22CD25DA00EC71FD = {
 			isa = PBXGroup;
 			children = (
 				8E2DBF1622CD25DA00EC71FD /* NewStartPart */,
 				8E2DBF1522CD25DA00EC71FD /* Products */,
+				96F7F7BC672E08B1093673DF /* Pods */,
+				7D4CFB5B9F0505CA0776CFD3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,8 +86,10 @@
 				8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */,
 				8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */,
 				8E2DBF2B22CD315500EC71FD /* TYInput.swift */,
-				104FEE5A22D39AEC006AA2F7 /* TextAreaView.swift */,
 				1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */,
+				10B779C922D4E0B6004E1532 /* Country.swift */,
+				10B779CB22D4EB27004E1532 /* CountryListController.swift */,
+				10B779CD22D4ED04004E1532 /* countries */,
 				104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */,
 				8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */,
 				1030CDE422D2E3E700F5154E /* TYTextField.swift */,
@@ -79,6 +100,15 @@
 			path = NewStartPart;
 			sourceTree = "<group>";
 		};
+		96F7F7BC672E08B1093673DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9BAE0BA8926FB694949C6F6A /* Pods-NewStartPart.debug.xcconfig */,
+				D69069F5513A3F160C23F628 /* Pods-NewStartPart.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +116,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E2DBF2822CD25DC00EC71FD /* Build configuration list for PBXNativeTarget "NewStartPart" */;
 			buildPhases = (
+				03C3F6A2B586F53D80A1A00F /* [CP] Check Pods Manifest.lock */,
 				8E2DBF1022CD25DA00EC71FD /* Sources */,
 				8E2DBF1122CD25DA00EC71FD /* Frameworks */,
 				8E2DBF1222CD25DA00EC71FD /* Resources */,
+				AF60D4916176A9316EB818AC /* [CP] Embed Pods Frameworks */,
+				B313A262DBABB73F60FE9FCD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -138,10 +171,77 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */,
+				10B779CE22D4ED04004E1532 /* countries in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		03C3F6A2B586F53D80A1A00F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NewStartPart-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF60D4916176A9316EB818AC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B313A262DBABB73F60FE9FCD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8E2DBF1022CD25DA00EC71FD /* Sources */ = {
@@ -149,13 +249,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */,
+				10B779CA22D4E0B6004E1532 /* Country.swift in Sources */,
 				1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */,
-				104FEE5B22D39AEC006AA2F7 /* TextAreaView.swift in Sources */,
 				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
 				104FEE5922D39116006AA2F7 /* TYPhoneNumberInput.swift in Sources */,
 				1030CDE822D2E73F00F5154E /* UIView.swift in Sources */,
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
+				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,
 				8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +380,7 @@
 		};
 		8E2DBF2922CD25DC00EC71FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9BAE0BA8926FB694949C6F6A /* Pods-NewStartPart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +400,7 @@
 		};
 		8E2DBF2A22CD25DC00EC71FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D69069F5513A3F160C23F628 /* Pods-NewStartPart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

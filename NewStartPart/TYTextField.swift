@@ -8,11 +8,7 @@
 
 import UIKit
 
-class TYTextField: UITextField, TextAreaView {
-    
-    
-    var textFont: UIFont
-    
+class TYTextField: UITextField {
     
     private var bottomLineLayer: CALayer!
     
@@ -29,44 +25,9 @@ class TYTextField: UITextField, TextAreaView {
         }
     }
     
-    var kern: CGFloat {
-        set {
-            defaultTextAttributes[NSAttributedString.Key.kern] = newValue
-        }
-        
-        get {
-            return defaultTextAttributes[NSAttributedString.Key.kern] as? CGFloat ?? 0.0
-        }
-    }
-    
-    public override var text: String? {
-        get {
-            return super.text ?? ""
-        }
-        
-        set {
-            guard let newValue = newValue else { return }
-            attributedText = NSAttributedString(string: newValue, attributes: defaultTextAttributes)
-        }
-    }
-    
-    var _text: String {
-        get {
-            return super.text ?? ""
-        }
-        
-        set {
-            attributedText = NSAttributedString(string: newValue, attributes: defaultTextAttributes)
-        }
-    }
-    
-    var textColor: UIColor {
-        get {
-            return super.textColor ?? tintColor
-        }
-        
-        set {
-            defaultTextAttributes[NSAttributedString.Key.foregroundColor] = newValue
+    var kern: CGFloat = 0 {
+        didSet {
+            defaultTextAttributes[NSAttributedString.Key.kern] = kern
         }
     }
     
