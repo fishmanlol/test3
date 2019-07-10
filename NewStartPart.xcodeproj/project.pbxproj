@@ -14,6 +14,10 @@
 		10B779CA22D4E0B6004E1532 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779C922D4E0B6004E1532 /* Country.swift */; };
 		10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779CB22D4EB27004E1532 /* CountryListController.swift */; };
 		10B779CE22D4ED04004E1532 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = 10B779CD22D4ED04004E1532 /* countries */; };
+		8E1DB09622D51157004E93BD /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09522D51157004E93BD /* UIFont.swift */; };
+		8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09822D5430C004E93BD /* UIColor.swift */; };
+		8E1DB09B22D548CD004E93BD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09A22D548CD004E93BD /* String.swift */; };
+		8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */; };
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
@@ -31,6 +35,10 @@
 		10B779CB22D4EB27004E1532 /* CountryListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListController.swift; sourceTree = "<group>"; };
 		10B779CD22D4ED04004E1532 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = countries; sourceTree = "<group>"; };
 		22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewStartPart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E1DB09522D51157004E93BD /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		8E1DB09822D5430C004E93BD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		8E1DB09A22D548CD004E93BD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYCodeTextField.swift; sourceTree = "<group>"; };
 		8E2DBF1422CD25DA00EC71FD /* NewStartPart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewStartPart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +68,17 @@
 				22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E1DB09722D542CE004E93BD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1030CDE722D2E73F00F5154E /* UIView.swift */,
+				8E1DB09522D51157004E93BD /* UIFont.swift */,
+				8E1DB09822D5430C004E93BD /* UIColor.swift */,
+				8E1DB09A22D548CD004E93BD /* String.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		8E2DBF0B22CD25DA00EC71FD = {
@@ -93,7 +112,8 @@
 				104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */,
 				8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */,
 				1030CDE422D2E3E700F5154E /* TYTextField.swift */,
-				1030CDE722D2E73F00F5154E /* UIView.swift */,
+				8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */,
+				8E1DB09722D542CE004E93BD /* Extensions */,
 				8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */,
 				8E2DBF2522CD25DC00EC71FD /* Info.plist */,
 			);
@@ -249,11 +269,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */,
+				8E1DB09B22D548CD004E93BD /* String.swift in Sources */,
+				8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */,
 				10B779CA22D4E0B6004E1532 /* Country.swift in Sources */,
 				1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */,
 				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
 				104FEE5922D39116006AA2F7 /* TYPhoneNumberInput.swift in Sources */,
+				8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */,
 				1030CDE822D2E73F00F5154E /* UIView.swift in Sources */,
+				8E1DB09622D51157004E93BD /* UIFont.swift in Sources */,
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
 				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,

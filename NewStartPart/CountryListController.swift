@@ -13,6 +13,16 @@ class CountryListController: UITableViewController {
     
     var countries: [Country] = []
     var phoneNumberKit = PhoneNumberKit()
+    var input: TYNormalInput!
+    
+    init(from input: TYNormalInput) {
+        super.init(nibName: nil, bundle: nil)
+        self.input = input
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         setup()
@@ -20,21 +30,29 @@ class CountryListController: UITableViewController {
     
     private func setup() {
         title = "Country List"
-        
+        let leftBarButton = UIBarButtonItem(image: UIImage(named: "arrow_back"), style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.setLeftBarButton(leftBarButton, animated: false)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CountryCell")
         
         fillCountries()
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CountryCell", for: indexPath)
         let country = countries[indexPath.row]
+        cell.selectionStyle = .none
         cell.textLabel?.text = country.fullNameAndCodeString()
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismiss(animated: true)
+        let country = countries[indexPath.row]
+        input.country = country
     }
     
     private func fillCountries() {
@@ -67,5 +85,13 @@ class CountryListController: UITableViewController {
         }
         
         return countryPair
+    }
+    
+    @objc private func backButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    deinit {
+        print(#function)
     }
 }

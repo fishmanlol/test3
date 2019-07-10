@@ -54,6 +54,8 @@ internal class TYInput: UIView {
         }
     }
     
+    
+    var textAreaHeight: CGFloat = 24
     //Views
     var label: TYLabel!
     lazy var textAreaView: UIView = {
@@ -78,6 +80,8 @@ internal class TYInput: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         self.label = label
         addSubview(label)
+        
+        label.kern = 1.2
     }
     
     override func layoutSubviews() {
@@ -90,7 +94,7 @@ internal class TYInput: UIView {
         textAreaView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         textAreaView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         textAreaView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        textAreaView.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        textAreaView.heightAnchor.constraint(equalToConstant: 24).priority = .defaultHigh
+        textAreaView.heightAnchor.constraint(equalToConstant: textAreaHeight).isActive = true
+        textAreaView.heightAnchor.constraint(equalToConstant: textAreaHeight).priority = .defaultHigh
     }
 }

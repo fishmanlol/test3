@@ -23,5 +23,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      
         return true
     }
+    
+    func getVisbleViewController() -> UIViewController? {
+        guard let rootVC = window?.rootViewController else { return nil }
+        
+        guard let presented = rootVC.presentedViewController else {
+            return rootVC
+        }
+        
+        if let navController = presented as? UINavigationController,
+            let topController = navController.topViewController {
+            return topController
+        }
+        
+        if let tabController = presented as? UITabBarController,
+            let selectedController = tabController.selectedViewController {
+            return selectedController
+        }
+        
+        return nil
+    }
 }
 

@@ -13,15 +13,17 @@ class TYTextField: UITextField {
     private var bottomLineLayer: CALayer!
     
     //Bottom line
-    var bottomLineHeight: CGFloat = 1.0 {
+    var bottomLineHeight: CGFloat = 2.4 {
         didSet {
-            updateBottomLineHeight(to: bottomLineHeight)
+//            updateBottomLineHeight(to: bottomLineHeight)
+            setNeedsDisplay()
         }
     }
     
-    var bottomLineColor: UIColor = UIColor.black {
+    var bottomLineColor: UIColor = UIColor(r: 207, g: 212, b: 217) {
         didSet {
-            updateBottomLineColor(to: bottomLineColor)
+//            updateBottomLineColor(to: bottomLineColor)
+            setNeedsDisplay()
         }
     }
     
@@ -31,34 +33,23 @@ class TYTextField: UITextField {
         }
     }
     
+    override func draw(_ rect: CGRect) {
+        let startPoint = CGPoint(x: rect.minX, y: rect.maxY)
+        let endPoint = CGPoint(x: rect.maxX, y: rect.maxY)
+        
+        let path = UIBezierPath()
+        path.move(to: startPoint)
+        path.addLine(to: endPoint)
+        path.lineWidth = bottomLineHeight
+        bottomLineColor.setStroke()
+        path.stroke()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addBottomLine()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    private func addBottomLine() {
-        let bottomLineLayer = CALayer()
-        self.bottomLineLayer = bottomLineLayer
-        updateBottomLineHeight(to: bottomLineHeight)
-        updateBottomLineColor(to: bottomLineColor)
-        layer.addSublayer(bottomLineLayer)
-    }
-    
-    private func updateBottomLineHeight(to newHeight: CGFloat) {
-        bottomLineLayer.frame = CGRect(x: 0, y: height - newHeight, width: width, height: newHeight)
-    }
-    
-    private func updateBottomLineColor(to newColor: UIColor) {
-        bottomLineLayer.backgroundColor = newColor.cgColor
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        updateBottomLineHeight(to: bottomLineHeight)
     }
 }
