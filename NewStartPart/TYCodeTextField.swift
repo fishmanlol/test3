@@ -23,7 +23,7 @@ class TYCodeTextField: UITextField {
     }
     
     var underLineHeight: CGFloat = 1.2
-    var underLineWidth: CGFloat = 20
+    var underLineWidth: CGFloat = 24
     var underLineColor: UIColor = .black
     
     override init(frame: CGRect) {
@@ -36,6 +36,9 @@ class TYCodeTextField: UITextField {
     }
     
     private func setup() {
+        self.
+        self.font = UIFont(name: "Menlo-Regular", size: 17)
+        self.backgroundColor = UIColor(white: 0.7, alpha: 1)
         self.delegate = self
         self.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         self.keyboardType = .phonePad
@@ -46,20 +49,30 @@ class TYCodeTextField: UITextField {
     }
     
     private var defaultCharacterWidth: CGFloat {
-        let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.kern: 10])
+        let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.font: UIFont(name: "Menlo-Regular", size: 17)])
         return attributedText.size().width
     }
     
     override func draw(_ rect: CGRect) {
-        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
+//        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
         var gapWidth = (rect.width - CGFloat(digits) * underLineWidth) / CGFloat(digits - 1)
         gapWidth = gapWidth < 0 ? 0 : gapWidth
         
-        kern = 2 * portionWidth + gapWidth
-        print("kern: ----", kern)
+//        kern = 2 * portionWidth + gapWidth
+        kern = underLineWidth + gapWidth - defaultCharacterWidth
+//        print("kern: ----", kern)
         
         let path = UIBezierPath()
         
+//        for i in 0..<digits {
+//            let startPoint = CGPoint(x: rect.minX + CGFloat(i) * (gapWidth + underLineWidth), y: rect.maxY)
+//            let endPoint = CGPoint(x: startPoint.x + underLineWidth, y: rect.maxY)
+//
+//            path.move(to: startPoint)
+//            path.addLine(to: endPoint)
+//            underLineColor.setStroke()
+//            path.stroke()
+//        }
         for i in 0..<digits {
             let startPoint = CGPoint(x: rect.minX + CGFloat(i) * (gapWidth + underLineWidth), y: rect.maxY)
             let endPoint = CGPoint(x: startPoint.x + underLineWidth, y: rect.maxY)
@@ -69,22 +82,23 @@ class TYCodeTextField: UITextField {
             underLineColor.setStroke()
             path.stroke()
         }
+
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
-        print(portionWidth)
-        return bounds.insetBy(dx: portionWidth, dy: 0)
+        let dx = (underLineWidth - defaultCharacterWidth) * 0.5
+        return bounds.insetBy(dx: dx, dy: 0)
     }
-    
+
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
-        print("underLineWidth ", underLineWidth)
-        print("defaultCharacterWidth", defaultCharacterWidth)
-        print(portionWidth)
-        return bounds.insetBy(dx: portionWidth, dy: 0)
+//        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
+//        print("underLineWidth ", underLineWidth)
+//        print("defaultCharacterWidth", defaultCharacterWidth)
+//        print(portionWidth)
+        let dx = (underLineWidth - defaultCharacterWidth) * 0.5
+        return bounds.insetBy(dx:  dx, dy: 0)
     }
-    
+//
     @objc private func valueChanged(sender: UITextField) {
         let count = sender.text?.count ?? 0
         
@@ -104,11 +118,9 @@ extension TYCodeTextField: UITextFieldDelegate {
             }
         }
         
-        let count = textField.text?.count ?? 0
-        if count > digits - 1 {
-            return false
-        } else {
-            return true
-        }
+        let nowCount = textField.text?.count ?? 0
+        let newCount = string.count
+        
+        return nowCount + newCount > digits ? false : true
     }
 }
