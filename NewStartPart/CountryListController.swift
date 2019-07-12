@@ -57,6 +57,7 @@ class CountryListController: UITableViewController {
     
     private func fillCountries() {
         let pairs = getCountryShortAndFullNamePairs()
+        print("all contries: \(phoneNumberKit.allCountries())")
         
         for (fullName, shortName) in pairs {
             if let code = phoneNumberKit.countryCode(for: shortName) {

@@ -9,15 +9,22 @@
 import UIKit
 import PhoneNumberKit
 
-enum InputType {
-    case normal, password, phoneNumber
+enum InputType: Equatable {
+    case normal
+    case password(hide: Bool)
+    case phoneNumber
+    case pinCode
 }
 
-class TYNormalInput: TYInput {
+class TYNormalInput: UIView {
     private var secureButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray]
-    var codeButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor(r: 79, g: 170, b: 248), NSAttributedString.Key.font: UIFont.avenirNext(bold: .medium, size: 17)]
-    weak var textField: TYTextField!
+    private var codeButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor(r: 79, g: 170, b: 248), NSAttributedString.Key.font: UIFont.avenirNext(bold: .medium, size: 17)]
+    
+    weak var textField: UITextField!
     let inputType: InputType
+    
+    
+    var textAreaHeight: CGFloat = 24
     
     var country: Country = Country.defaultCountry {
         didSet {
@@ -56,11 +63,11 @@ class TYNormalInput: TYInput {
     
     var textKern: CGFloat {
         get {
-            return textField.kern
+            return textField.defaultTextAttributes[NSAttributedString.Key.kern] as? CGFloat ?? 0
         }
         
         set {
-            textField.kern = newValue
+            textField.defaultTextAttributes[NSMutableAttributedString.Key.kern] = newValue
         }
     }
     
@@ -71,6 +78,50 @@ class TYNormalInput: TYInput {
         
         set {
             textField.textColor = newValue
+        }
+    }
+    
+    //Strings
+    public var labelText: String! {
+        set {
+            label.text = newValue
+        }
+        
+        get {
+            return label.text ?? ""
+        }
+    }
+    
+    //Fonts
+    public var labelFont: UIFont! {
+        set {
+            label.font = newValue
+        }
+        
+        get {
+            return label.font
+        }
+    }
+    
+    //Colors
+    public var labelColor: UIColor! {
+        set {
+            label.textColor = newValue
+        }
+        
+        get {
+            return label.textColor
+        }
+    }
+    
+    //Kern
+    public var labelKern: CGFloat {
+        set {
+            label.kern = newValue
+        }
+        
+        get {
+            return label.kern
         }
     }
     
@@ -86,6 +137,14 @@ class TYNormalInput: TYInput {
         return textField.isFirstResponder
     }
     
+    lazy var label: TYLabel = {
+        let label = TYLabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.kern = 1.2
+        addSubview(label)
+        return label
+    }()
+    
     lazy var secureButton: UIButton = {
         let button = UIButton(type: .custom)
         let attributedHide = NSAttributedString(string: "hide", attributes: secureButtonAttributes)
@@ -100,7 +159,7 @@ class TYNormalInput: TYInput {
     lazy var codeContainer: UIView = {
         let view = UIView()
         let attributedText = NSAttributedString(string: country.shortNameAndCodeString(), attributes: codeButtonAttributes)
-        let size = CGSize(width: attributedText.size().width + 14, height: textField.height)
+        let size = CGSize(width: attributedText.size().width + 14, height: textAreaHeight)
         view.frame.size = CGSize(width: size.width, height: textAreaHeight)
         return view
     }()
@@ -123,19 +182,9 @@ class TYNormalInput: TYInput {
         return separateLine
     }()
     
-    init(frame: CGRect, type: InputType = .normal) {
+    init(frame: CGRect, type: InputType = InputType.normal) {
         inputType = type
-        
         super.init(frame: frame)
-        
-        let textField = TYTextField()
-        textField.kern = 1.2
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
-        self.textField = textField
-        self.textAreaView = textField
-        addSubview(textField)
-        
         setup()
     }
     
@@ -145,28 +194,63 @@ class TYNormalInput: TYInput {
     }
     
     private func setup() {
+        setupTextField(for: inputType)
+        setupLayouts()
+    }
+    
+    private func setupTextField(for inputType: InputType) {
+        
+        let textField: UITextField
         
         switch inputType {
         case .normal:
-            break
-        case .password:
+            textField = TYTextField()
+        case .password(let hide):
+            textField = TYTextField()
             textField.rightView = secureButton
             textField.rightViewMode = .always
+            
+            if hide {
+                secureButtonTapped(sender: secureButton)
+            }
         case .phoneNumber:
+            textField = TYTextField()
             textField.leftView = codeContainer
             textField.leftViewMode = .always
             textField.keyboardType = .numberPad
             textField.tintColor = UIColor(r: 79, g: 170, b: 248)
+        case .pinCode:
+            textField = TYCodeTextField()
         }
         
-        codeButton.leftAnchor.constraint(equalTo: codeContainer.leftAnchor).isActive = true
-        codeButton.topAnchor.constraint(equalTo: codeContainer.topAnchor).isActive = true
-        codeButton.bottomAnchor.constraint(equalTo: codeContainer.bottomAnchor).isActive = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
+        self.textField = textField
+        textKern = 1.2
+        addSubview(textField)
+    }
+    
+    private func setupLayouts() {
         
-        separateLine.topAnchor.constraint(equalTo: codeContainer.topAnchor, constant: 4).isActive = true
-        separateLine.centerYAnchor.constraint(equalTo: codeContainer.centerYAnchor).isActive = true
-        separateLine.widthAnchor.constraint(equalToConstant: 1.2).isActive = true
-        separateLine.leftAnchor.constraint(equalTo: codeButton.rightAnchor, constant: 5).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        label.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        
+        textField.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        textField.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        textField.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        textField.heightAnchor.constraint(equalToConstant: textAreaHeight).isActive = true
+        
+        if inputType == .phoneNumber {
+            codeButton.leftAnchor.constraint(equalTo: codeContainer.leftAnchor).isActive = true
+            codeButton.topAnchor.constraint(equalTo: codeContainer.topAnchor).isActive = true
+            codeButton.bottomAnchor.constraint(equalTo: codeContainer.bottomAnchor).isActive = true
+            
+            separateLine.topAnchor.constraint(equalTo: codeContainer.topAnchor, constant: 4).isActive = true
+            separateLine.centerYAnchor.constraint(equalTo: codeContainer.centerYAnchor).isActive = true
+            separateLine.widthAnchor.constraint(equalToConstant: 1.2).isActive = true
+            separateLine.leftAnchor.constraint(equalTo: codeButton.rightAnchor, constant: 5).isActive = true
+        }
     }
     
     @objc private func secureButtonTapped(sender: UIButton) {

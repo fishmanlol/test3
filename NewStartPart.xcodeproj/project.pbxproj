@@ -18,6 +18,7 @@
 		8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09822D5430C004E93BD /* UIColor.swift */; };
 		8E1DB09B22D548CD004E93BD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09A22D548CD004E93BD /* String.swift */; };
 		8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */; };
+		8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */; };
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		8E1DB09822D5430C004E93BD /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		8E1DB09A22D548CD004E93BD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYCodeTextField.swift; sourceTree = "<group>"; };
+		8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		8E2DBF1422CD25DA00EC71FD /* NewStartPart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewStartPart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				8E1DB09522D51157004E93BD /* UIFont.swift */,
 				8E1DB09822D5430C004E93BD /* UIColor.swift */,
 				8E1DB09A22D548CD004E93BD /* String.swift */,
+				8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
 				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,
+				8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */,
 				8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

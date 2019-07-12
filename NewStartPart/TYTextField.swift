@@ -15,21 +15,13 @@ class TYTextField: UITextField {
     //Bottom line
     var bottomLineHeight: CGFloat = 2.4 {
         didSet {
-//            updateBottomLineHeight(to: bottomLineHeight)
             setNeedsDisplay()
         }
     }
     
     var bottomLineColor: UIColor = UIColor(r: 207, g: 212, b: 217) {
         didSet {
-//            updateBottomLineColor(to: bottomLineColor)
             setNeedsDisplay()
-        }
-    }
-    
-    var kern: CGFloat = 0 {
-        didSet {
-            defaultTextAttributes[NSAttributedString.Key.kern] = kern
         }
     }
     
@@ -43,13 +35,5 @@ class TYTextField: UITextField {
         path.lineWidth = bottomLineHeight
         bottomLineColor.setStroke()
         path.stroke()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 }

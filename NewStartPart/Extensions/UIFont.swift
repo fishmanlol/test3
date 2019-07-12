@@ -21,4 +21,13 @@ extension UIFont {
     enum Bold {
         case regular, medium
     }
+    
+    static func menlo(bold: Bold, size: CGFloat) -> UIFont {
+        switch bold {
+        case .medium:
+            return UIFont(name: "Menlo-Medium", size: size) ?? UIFont.systemFont(ofSize: size)
+        case .regular:
+            return UIFont(name: "Menlo-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
+        }
+    }
 }

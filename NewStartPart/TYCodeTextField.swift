@@ -22,9 +22,32 @@ class TYCodeTextField: UITextField {
         }
     }
     
-    var underLineHeight: CGFloat = 1.2
+    var fontSize: CGFloat = 17 {
+        didSet {
+            defaultTextAttributes[NSAttributedString.Key.font] = UIFont.menlo(bold: fontBold, size: fontSize)
+        }
+    }
+    
+    var fontBold: UIFont.Bold = .regular {
+        didSet {
+            defaultTextAttributes[NSAttributedString.Key.font] = UIFont.menlo(bold: fontBold, size: fontSize)
+        }
+    }
+    
+    private weak var _delegate: UITextFieldDelegate?
+    override weak var delegate: UITextFieldDelegate? {
+        get {
+            return _delegate
+        }
+
+        set {
+            _delegate = newValue
+        }
+    }
+    
+    var underLineHeight: CGFloat = 2
     var underLineWidth: CGFloat = 24
-    var underLineColor: UIColor = .black
+    var underLineColor: UIColor = .gray
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,43 +59,27 @@ class TYCodeTextField: UITextField {
     }
     
     private func setup() {
-        self.
-        self.font = UIFont(name: "Menlo-Regular", size: 17)
-        self.backgroundColor = UIColor(white: 0.7, alpha: 1)
-        self.delegate = self
+        self.font = UIFont.menlo(bold: fontBold, size: fontSize)
+        self.textColor = .gray
         self.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         self.keyboardType = .phonePad
-        
+        super.delegate = self
         if #available(iOS 12.0, *) {
             self.textContentType = .oneTimeCode
         }
     }
     
     private var defaultCharacterWidth: CGFloat {
-        let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.font: UIFont(name: "Menlo-Regular", size: 17)])
+        let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.font: UIFont.menlo(bold: fontBold, size: fontSize)])
         return attributedText.size().width
     }
     
     override func draw(_ rect: CGRect) {
-//        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
         var gapWidth = (rect.width - CGFloat(digits) * underLineWidth) / CGFloat(digits - 1)
         gapWidth = gapWidth < 0 ? 0 : gapWidth
-        
-//        kern = 2 * portionWidth + gapWidth
         kern = underLineWidth + gapWidth - defaultCharacterWidth
-//        print("kern: ----", kern)
         
         let path = UIBezierPath()
-        
-//        for i in 0..<digits {
-//            let startPoint = CGPoint(x: rect.minX + CGFloat(i) * (gapWidth + underLineWidth), y: rect.maxY)
-//            let endPoint = CGPoint(x: startPoint.x + underLineWidth, y: rect.maxY)
-//
-//            path.move(to: startPoint)
-//            path.addLine(to: endPoint)
-//            underLineColor.setStroke()
-//            path.stroke()
-//        }
         for i in 0..<digits {
             let startPoint = CGPoint(x: rect.minX + CGFloat(i) * (gapWidth + underLineWidth), y: rect.maxY)
             let endPoint = CGPoint(x: startPoint.x + underLineWidth, y: rect.maxY)
@@ -80,37 +87,84 @@ class TYCodeTextField: UITextField {
             path.move(to: startPoint)
             path.addLine(to: endPoint)
             underLineColor.setStroke()
+            path.lineWidth = underLineHeight
             path.stroke()
         }
-
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         let dx = (underLineWidth - defaultCharacterWidth) * 0.5
-        return bounds.insetBy(dx: dx, dy: 0)
+        return CGRect(x: bounds.origin.x + dx, y: bounds.origin.y, width: bounds.width + 20, height: bounds.height)
     }
 
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-//        let portionWidth = ((underLineWidth - defaultCharacterWidth) < 0 ? 0 : (underLineWidth - defaultCharacterWidth)) * 0.5
-//        print("underLineWidth ", underLineWidth)
-//        print("defaultCharacterWidth", defaultCharacterWidth)
-//        print(portionWidth)
         let dx = (underLineWidth - defaultCharacterWidth) * 0.5
-        return bounds.insetBy(dx:  dx, dy: 0)
+        return CGRect(x: bounds.origin.x + dx, y: bounds.origin.y, width: bounds.width + dx * 2, height: bounds.height)
     }
-//
+    
+    override func forwardingTarget(for aSelector: Selector!) -> Any? {
+        if let _delegate = _delegate, _delegate.responds(to: aSelector) {
+            return _delegate
+        } else {
+            return super.forwardingTarget(for: aSelector)
+        }
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        if let _delegate = _delegate, _delegate.responds(to: aSelector) {
+            return true
+        } else {
+            return super.responds(to: aSelector)
+        }
+    }
+    
     @objc private func valueChanged(sender: UITextField) {
+        
         let count = sender.text?.count ?? 0
         
         if count > digits - 1 {
             let _ = resignFirstResponder()
+        }
+        
+        if count == digits {
+            self.text = sender.text
         }
     }
 }
 
 extension TYCodeTextField: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if isBackSpacePressed(string: string) {
+            return true
+        }
         
+        if hasMaxDigits(textField: textField) {
+            return false
+        }
+        
+        // The string is valid, now let the real delegate decide
+        if let _delegate = _delegate, _delegate.responds(to: #selector(textField(_:shouldChangeCharactersIn:replacementString:))) {
+            return _delegate.textField!(textField, shouldChangeCharactersIn: range, replacementString: string)
+        } else {
+            return true
+        }
+    }
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        let nowCount = textField.text?.count ?? 0
+        if nowCount == digits {
+            textField.text?.removeLast()
+        }
+
+        if let _delegate = _delegate, _delegate.responds(to: #selector(textFieldShouldBeginEditing(_:))) {
+            return _delegate.textFieldShouldBeginEditing!(textField)
+        } else {
+            return true
+        }
+    }
+    
+    private func isBackSpacePressed(string: String) -> Bool {
         if let char = string.cString(using: .utf8) { //allow backsapce
             let isBackSpace = strcmp(char, "\\b")
             if isBackSpace == -92 {
@@ -118,9 +172,11 @@ extension TYCodeTextField: UITextFieldDelegate {
             }
         }
         
-        let nowCount = textField.text?.count ?? 0
-        let newCount = string.count
-        
-        return nowCount + newCount > digits ? false : true
+        return false
+    }
+    
+    private func hasMaxDigits(textField: UITextField) -> Bool {
+        let nowDigits = textField.text?.count ?? 0
+        return nowDigits < digits ? false : true
     }
 }
