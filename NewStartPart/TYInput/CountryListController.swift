@@ -13,9 +13,9 @@ class CountryListController: UITableViewController {
     
     var countries: [Country] = []
     var phoneNumberKit = PhoneNumberKit()
-    var input: TYNormalInput!
+    var input: TYInput!
     
-    init(from input: TYNormalInput) {
+    init(from input: TYInput) {
         super.init(nibName: nil, bundle: nil)
         self.input = input
     }
@@ -57,7 +57,6 @@ class CountryListController: UITableViewController {
     
     private func fillCountries() {
         let pairs = getCountryShortAndFullNamePairs()
-        print("all contries: \(phoneNumberKit.allCountries())")
         
         for (fullName, shortName) in pairs {
             if let code = phoneNumberKit.countryCode(for: shortName) {

@@ -16,11 +16,12 @@ enum InputType: Equatable {
     case pinCode
 }
 
-class TYNormalInput: UIView {
-    private var secureButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray]
+class TYInput: UIView {
+    private var secureButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.gray, NSAttributedString.Key.font: UIFont.avenirNext(bold: .regular, size: 15)]
     private var codeButtonAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor(r: 79, g: 170, b: 248), NSAttributedString.Key.font: UIFont.avenirNext(bold: .medium, size: 17)]
     
     weak var textField: UITextField!
+    weak var delegate: TYInputDelegate?
     let inputType: InputType
     
     
@@ -205,8 +206,12 @@ class TYNormalInput: UIView {
         switch inputType {
         case .normal:
             textField = TYTextField()
+            textKern = 1.2
+            self.textField = textField
         case .password(let hide):
             textField = TYTextField()
+            self.textField = textField
+            textKern = 1.2
             textField.rightView = secureButton
             textField.rightViewMode = .always
             
@@ -215,18 +220,20 @@ class TYNormalInput: UIView {
             }
         case .phoneNumber:
             textField = TYTextField()
+            self.textField = textField
+            textKern = 1
             textField.leftView = codeContainer
             textField.leftViewMode = .always
             textField.keyboardType = .numberPad
             textField.tintColor = UIColor(r: 79, g: 170, b: 248)
         case .pinCode:
             textField = TYCodeTextField()
+            self.textField = textField
         }
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
-        self.textField = textField
-        textKern = 1.2
+        textField.delegate = self
         addSubview(textField)
     }
     
@@ -325,4 +332,54 @@ class TYNormalInput: UIView {
             self.text = text.onlyNumber
         }
     }
+}
+
+extension TYInput: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.textFieldDidEndEditing(textField)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.textFieldDidBeginEditing(textField)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return delegate?.textFieldShouldReturn(textField) ?? true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return delegate?.textFieldShouldClear(textField) ?? true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return delegate?.textField(textField, shouldChangeCharactersIn: range, replacementString: string) ?? true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return delegate?.textFieldShouldEndEditing(textField) ?? true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return delegate?.textFieldShouldBeginEditing(textField) ?? true
+    }
+}
+
+protocol TYInputDelegate: class {
+    func textFieldDidEndEditing(_ textField: UITextField)
+    func textFieldDidBeginEditing(_ textField: UITextField)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    func textFieldShouldClear(_ textField: UITextField) -> Bool
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool
+}
+
+extension TYInputDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {}
+    func textFieldDidBeginEditing(_ textField: UITextField) {}
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { return true }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool { return true }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool { return true }
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool { return true }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool { return true }
 }

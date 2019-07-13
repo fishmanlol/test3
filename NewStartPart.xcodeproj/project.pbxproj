@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */; };
+		1030CDE322D2DE4E00F5154E /* TYInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE222D2DE4E00F5154E /* TYInput.swift */; };
 		1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE422D2E3E700F5154E /* TYTextField.swift */; };
 		1030CDE822D2E73F00F5154E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE722D2E73F00F5154E /* UIView.swift */; };
 		104FEE5922D39116006AA2F7 /* TYPhoneNumberInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */; };
@@ -22,13 +22,14 @@
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
-		8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2B22CD315500EC71FD /* TYInput.swift */; };
+		8E2DBF2C22CD315500EC71FD /* TYInput-.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2B22CD315500EC71FD /* TYInput-.swift */; };
 		8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */; };
+		8EB6969E22D94F6300A988C1 /* TYButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6969D22D94F6300A988C1 /* TYButton.swift */; };
 		ADB8204D9D77586A6078C914 /* Pods_NewStartPart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYNormalInput.swift; sourceTree = "<group>"; };
+		1030CDE222D2DE4E00F5154E /* TYInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYInput.swift; sourceTree = "<group>"; };
 		1030CDE422D2E3E700F5154E /* TYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYTextField.swift; sourceTree = "<group>"; };
 		1030CDE722D2E73F00F5154E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYPhoneNumberInput.swift; sourceTree = "<group>"; };
@@ -46,8 +47,9 @@
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E2DBF2522CD25DC00EC71FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E2DBF2B22CD315500EC71FD /* TYInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYInput.swift; sourceTree = "<group>"; };
+		8E2DBF2B22CD315500EC71FD /* TYInput-.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TYInput-.swift"; sourceTree = "<group>"; };
 		8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYLabel.swift; sourceTree = "<group>"; };
+		8EB6969D22D94F6300A988C1 /* TYButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYButton.swift; sourceTree = "<group>"; };
 		9BAE0BA8926FB694949C6F6A /* Pods-NewStartPart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.debug.xcconfig"; sourceTree = "<group>"; };
 		D69069F5513A3F160C23F628 /* Pods-NewStartPart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,20 +109,45 @@
 			children = (
 				8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */,
 				8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */,
-				8E2DBF2B22CD315500EC71FD /* TYInput.swift */,
-				1030CDE222D2DE4E00F5154E /* TYNormalInput.swift */,
-				10B779C922D4E0B6004E1532 /* Country.swift */,
-				10B779CB22D4EB27004E1532 /* CountryListController.swift */,
-				10B779CD22D4ED04004E1532 /* countries */,
+				8E2DBF2B22CD315500EC71FD /* TYInput-.swift */,
 				104FEE5822D39115006AA2F7 /* TYPhoneNumberInput.swift */,
-				8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */,
-				1030CDE422D2E3E700F5154E /* TYTextField.swift */,
-				8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */,
+				8EB6969C22D94F5600A988C1 /* TYButton */,
+				8EB6969B22D94F4700A988C1 /* TYLabel */,
+				8EB6969A22D9497400A988C1 /* TYInput */,
 				8E1DB09722D542CE004E93BD /* Extensions */,
 				8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */,
 				8E2DBF2522CD25DC00EC71FD /* Info.plist */,
 			);
 			path = NewStartPart;
+			sourceTree = "<group>";
+		};
+		8EB6969A22D9497400A988C1 /* TYInput */ = {
+			isa = PBXGroup;
+			children = (
+				1030CDE222D2DE4E00F5154E /* TYInput.swift */,
+				10B779C922D4E0B6004E1532 /* Country.swift */,
+				10B779CB22D4EB27004E1532 /* CountryListController.swift */,
+				10B779CD22D4ED04004E1532 /* countries */,
+				1030CDE422D2E3E700F5154E /* TYTextField.swift */,
+				8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */,
+			);
+			path = TYInput;
+			sourceTree = "<group>";
+		};
+		8EB6969B22D94F4700A988C1 /* TYLabel */ = {
+			isa = PBXGroup;
+			children = (
+				8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */,
+			);
+			path = TYLabel;
+			sourceTree = "<group>";
+		};
+		8EB6969C22D94F5600A988C1 /* TYButton */ = {
+			isa = PBXGroup;
+			children = (
+				8EB6969D22D94F6300A988C1 /* TYButton.swift */,
+			);
+			path = TYButton;
 			sourceTree = "<group>";
 		};
 		96F7F7BC672E08B1093673DF /* Pods */ = {
@@ -271,11 +298,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E2DBF2C22CD315500EC71FD /* TYInput.swift in Sources */,
+				8E2DBF2C22CD315500EC71FD /* TYInput-.swift in Sources */,
 				8E1DB09B22D548CD004E93BD /* String.swift in Sources */,
 				8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */,
+				8EB6969E22D94F6300A988C1 /* TYButton.swift in Sources */,
 				10B779CA22D4E0B6004E1532 /* Country.swift in Sources */,
-				1030CDE322D2DE4E00F5154E /* TYNormalInput.swift in Sources */,
+				1030CDE322D2DE4E00F5154E /* TYInput.swift in Sources */,
 				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
 				104FEE5922D39116006AA2F7 /* TYPhoneNumberInput.swift in Sources */,
 				8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */,

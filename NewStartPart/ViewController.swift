@@ -10,41 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    weak var input: TYNormalInput!
-//    weak var textField: TYCodeTextField!
+    weak var button: TYButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        let input = TYNormalInput(frame: CGRect(x: 100, y: 100, width: 300, height: 60), type: .password(hide: true))
-
-        input.labelText = "FIRST NAME"
-        input.labelColor = UIColor(r: 79, g: 170, b: 248)
-        self.input = input
-        view.addSubview(input)
-//        let textField = TYCodeTextField(frame: CGRect(x: 100, y: 100, width: 200, height: 30))
-//        textField.textColor = .black
-//        textField.delegate = self
-//        self.textField = textField
-//        view.addSubview(textField)
+        let button = TYButton(frame: CGRect(x: 100, y: 100, width: 100, height: 30))
+        button.setTitle("Test", for: .normal)
+        self.button = button
+        view.addSubview(button)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+        
+        
     }
     
 }
 
-extension ViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print("fuck")
-        return true
-    }
+extension ViewController: TYInputDelegate {
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("123123")
-    }
 }
 
