@@ -9,29 +9,43 @@
 import UIKit
 
 class TYButton: UIButton {
-    private var attributes: [NSAttributedString.Key: Any]
-    private(set) var isLoading: Bool
+    private var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 1]
+    private var tempColor = UIColor.clear
+    
+    var disabledBackgroudColor: UIColor = UIColor.gray
+    
+    var isLoading: Bool {
+        get {
+            return spin.isAnimating
+        }
+    }
+    
+    private lazy var spin: SpinView = {
+        let spin = SpinView()
+        spin.center = CGPoint(x: bounds.width * 0.5, y: bounds.height * 0.5)
+        spin.bounds.size = CGSize(width: 28, height: 28)
+        addSubview(spin)
+        return spin
+    }()
     
     public func startAnimating() {
         if isLoading { return }
         
-        
+        spin.startAnimating()
+        hideTitleLabel()
     }
     
     public func stopAnimating() {
         if !isLoading { return }
         
-        
+        spin.stopAnimating()
+        restoreTitleLabel()
     }
     
     override func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
         
         setAttributedTitle(NSAttributedString(string: title ?? "", attributes: attributes), for: state)
-    }
-    
-    override func title(for state: UIControl.State) -> String? {
-        return attributedTitle(for: state)?.string
     }
     
     override func setTitleColor(_ color: UIColor?, for state: UIControl.State) {
@@ -46,18 +60,31 @@ class TYButton: UIButton {
     }
     
     override init(frame: CGRect) {
-        setup()
         super.init(frame: frame)
+        setup()
     }
     
     required init?(coder: NSCoder) {
-        setup()
         super.init(coder: coder)
     }
     
     private func setup() {
-        attributes = [NSAttributedString.Key.kern: 10]
-        isLoading = false
+        setBackgroundImage(UIImage.from(disabledBackgroudColor), for: .disabled)
+        layer.masksToBounds = true
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.cornerRadius = bounds.height * 0.5
+    }
+    
+    private func hideTitleLabel() {
+        tempColor = currentTitleColor
+        titleLabel?.textColor = .clear
+    }
+    
+    private func restoreTitleLabel() {
+        titleLabel?.textColor = tempColor
+    }
 }
