@@ -60,6 +60,7 @@ extension LoginViewController { //Helper functions
         
         let passwordInput = TYInput(frame: CGRect.zero, type: .password(hide: true))
         passwordInput.labelText = "PASSWORD"
+        passwordInput.disallowedCharacterSet = CharacterSet.letters
         self.passwordInput = passwordInput
         view.addSubview(passwordInput)
         
