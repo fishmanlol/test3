@@ -12,7 +12,7 @@ class TYCodeTextField: UITextField {
     
     private var kern: CGFloat = 0 {
         didSet {
-            defaultTextAttributes[NSAttributedString.Key.kern] = kern
+            defaultTextAttributes[NSAttributedStringKey.kern.rawValue] = kern
         }
     }
     
@@ -22,15 +22,15 @@ class TYCodeTextField: UITextField {
         }
     }
     
-    var fontSize: CGFloat = 17 {
+    var fontSize: CGFloat = UIFont.middleFontSize {
         didSet {
-            defaultTextAttributes[NSAttributedString.Key.font] = UIFont.menlo(bold: fontBold, size: fontSize)
+            defaultTextAttributes[NSAttributedStringKey.font.rawValue] = UIFont.menlo(bold: fontBold, size: fontSize)
         }
     }
     
     var fontBold: UIFont.Bold = .regular {
         didSet {
-            defaultTextAttributes[NSAttributedString.Key.font] = UIFont.menlo(bold: fontBold, size: fontSize)
+            defaultTextAttributes[NSAttributedStringKey.font.rawValue] = UIFont.menlo(bold: fontBold, size: fontSize)
         }
     }
     
@@ -47,7 +47,7 @@ class TYCodeTextField: UITextField {
     
     var underLineHeight: CGFloat = 2
     var underLineWidth: CGFloat = 24
-    var underLineColor: UIColor = .gray
+    var underLineColor: UIColor = UIColor.lightGray
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +60,7 @@ class TYCodeTextField: UITextField {
     
     private func setup() {
         self.font = UIFont.menlo(bold: fontBold, size: fontSize)
-        self.textColor = .gray
+        self.textColor = UIColor.lightGray
         self.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         self.keyboardType = .phonePad
         super.delegate = self

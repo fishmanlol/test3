@@ -12,7 +12,7 @@ class TYButton: UIButton {
     private var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 1]
     private var tempColor = UIColor.clear
     
-    var disabledBackgroudColor: UIColor = UIColor.gray
+    var disabledBackgroudColor: UIColor = UIColor.darkGray
     
     var isLoading: Bool {
         get {
@@ -69,7 +69,9 @@ class TYButton: UIButton {
     }
     
     private func setup() {
+        setBackgroundImage(UIImage.from(UIColor(r: 59, g: 143, b: 206)), for: .normal)
         setBackgroundImage(UIImage.from(disabledBackgroudColor), for: .disabled)
+        setTitleColor(UIColor.white, for: .normal)
         layer.masksToBounds = true
     }
     
@@ -86,5 +88,13 @@ class TYButton: UIButton {
     
     private func restoreTitleLabel() {
         titleLabel?.textColor = tempColor
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if isLoading {
+            return nil
+        } else {
+            return super.hitTest(point, with: event)
+        }
     }
 }

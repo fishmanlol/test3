@@ -8,37 +8,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: StartBaseViewController {
     
-    weak var button: TYButton!
-
+    weak var input: TYInput!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
-        let button = TYButton()
-        button.frame = CGRect(x: 100, y: 100, width: 200, height: 40)
-        button.backgroundColor = UIColor.yellow
-        button.setTitle("Hello", for: .normal)
-        self.button = button
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        view.addSubview(button)
-    }
-    
-    @objc func buttonTapped() {
-        if button.isLoading {
-            button.stopAnimating()
-        } else {
-            button.startAnimating()
-        }
+        let input = TYInput(frame: CGRect(x: 100, y: 100, width: 200, height: 60))
+        input.labelText = "FIRST NAME"
+        self.input = input
+        view.addSubview(input)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        button.isEnabled = !button.isEnabled
+        view.endEditing(true)
     }
-}
-
-extension ViewController: TYInputDelegate {
-    
 }
 

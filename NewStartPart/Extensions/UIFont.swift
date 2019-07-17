@@ -9,6 +9,11 @@
 import UIKit
 
 extension UIFont {
+    
+    static let largeFontSize: CGFloat = 24
+    static let middleFontSize: CGFloat = 17
+    static let smallFontSize: CGFloat = 12
+    
     static func avenirNext(bold: Bold, size: CGFloat) -> UIFont {
         switch bold {
         case .medium:
@@ -21,7 +26,7 @@ extension UIFont {
     enum Bold {
         case regular, medium
     }
-    
+
     static func menlo(bold: Bold, size: CGFloat) -> UIFont {
         switch bold {
         case .medium:

@@ -12,9 +12,10 @@ class TYLabel: UILabel {
     
     private var ctFrame: CTFrame!
     private var clickableArray: [(Range<String.Index>, (String) -> Void)] = []
-    private var clickableAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.blue]
+    private var clickableAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.blue]
+    private var clickable = false
     
-    var attributes: [NSAttributedString.Key: Any] = [:]
+    var attributes: [NSAttributedStringKey: Any] = [:]
     
     //public functions
     public func makeClickable(at range: Range<String.Index>, handler: @escaping (String) -> Void) {
@@ -43,27 +44,30 @@ class TYLabel: UILabel {
     
     override var textColor: UIColor! {
         get {
-            guard let color = attributes[NSAttributedString.Key.foregroundColor] as? UIColor else { return super.textColor }
+            guard let color = attributes[NSAttributedStringKey.foregroundColor] as? UIColor else { return super.textColor }
             return color
         }
         
         set {
-            attributes[NSAttributedString.Key.foregroundColor] = newValue
+            attributes[NSAttributedStringKey.foregroundColor] = newValue
+            updateText(to: text ?? "")
         }
     }
     
     override var font: UIFont! {
         get {
-            guard let f = attributes[NSAttributedString.Key.font] as? UIFont else { return super.font }
+            guard let f = attributes[NSAttributedStringKey.font] as? UIFont else { return super.font }
             return f
         }
         
         set {
-            attributes[NSAttributedString.Key.font] = newValue
+            attributes[NSAttributedStringKey.font] = newValue
+            updateText(to: text ?? "")
         }
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, clickable: Bool = false) {
+        self.clickable = clickable
         super.init(frame: frame)
         
         setup()
@@ -76,12 +80,12 @@ class TYLabel: UILabel {
     //self-owned
     var kern: CGFloat {
         get {
-            guard let k = attributes[NSAttributedString.Key.kern] as? CGFloat else { return 0 }
+            guard let k = attributes[NSAttributedStringKey.kern] as? CGFloat else { return 0 }
             return k
         }
         
         set {
-            attributes[NSAttributedString.Key.kern] = newValue
+            attributes[NSAttributedStringKey.kern] = newValue
         }
     }
     
@@ -92,7 +96,6 @@ class TYLabel: UILabel {
         context.scaleBy(x: 1, y: -1)
 
         let path = UIBezierPath(rect: bounds)
-        
         let mutable = NSMutableAttributedString(string: text, attributes: attributes)
         for (range, _) in clickableArray {
             let nsrange = (text as NSString).range(of: String(text[range]))
@@ -141,8 +144,18 @@ class TYLabel: UILabel {
         }
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if !clickable {
+            return nil
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+    
     private func setup() {
         isUserInteractionEnabled = true
+        font = UIFont.avenirNext(bold: .regular, size: 17)
+        kern = 1
     }
     
     private func updateText(to text: String) {

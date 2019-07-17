@@ -13,13 +13,13 @@ class TYTextField: UITextField {
     private var bottomLineLayer: CALayer!
     
     //Bottom line
-    var bottomLineHeight: CGFloat = 2.4 {
+    var bottomLineHeight: CGFloat = 1.2 {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    var bottomLineColor: UIColor = UIColor(r: 207, g: 212, b: 217) {
+    var bottomLineColor: UIColor = UIColor.lightGray {
         didSet {
             setNeedsDisplay()
         }

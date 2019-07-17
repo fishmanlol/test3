@@ -17,7 +17,7 @@ class SpinView: UIView {
         animation.fromValue = 0
         animation.toValue = 1
         animation.isRemovedOnCompletion = false
-        animation.fillMode = CAMediaTimingFillMode.both
+        animation.fillMode = kCAFillModeBoth
         
         return animation
     }()
@@ -29,16 +29,16 @@ class SpinView: UIView {
         animation.fromValue = 0
         animation.toValue = 1
         animation.isRemovedOnCompletion = false
-        animation.fillMode = CAMediaTimingFillMode.both
+        animation.fillMode = kCAFillModeBoth
         return animation
     }()
     
     private lazy var spinAnimation: CAAnimationGroup = {
         let group = CAAnimationGroup()
-        group.fillMode = CAMediaTimingFillMode.forwards
+        group.fillMode = kCAFillModeForwards
         group.duration = frequency
         group.repeatCount = Float.infinity
-        group.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        group.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         group.animations = [startAnimation, endAnimation]
         return group
     }()
