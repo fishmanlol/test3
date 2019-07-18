@@ -44,18 +44,19 @@ class SpinView: UIView {
     }()
     
     private lazy var spinLayer: CAShapeLayer = {
-       let layer = CAShapeLayer()
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = lineColor.cgColor
+        shapeLayer.lineWidth = lineWidth
+        
         let w = bounds.width
         let h = bounds.height
-        layer.fillColor = UIColor.clear.cgColor
-        layer.strokeColor = lineColor.cgColor
         let path = UIBezierPath(arcCenter: CGPoint(x: w * 0.5, y: h * 0.5), radius: min(w * 0.5, h * 0.5), startAngle: CGFloat(-Double.pi * 0.5), endAngle: CGFloat(Double.pi * 1.5), clockwise: true)
-        layer.lineWidth = lineWidth
-        layer.path = path.cgPath
-        self.layer.addSublayer(layer)
-        return layer
+        shapeLayer.path = path.cgPath
+        
+        self.layer.addSublayer(shapeLayer)
+        return shapeLayer
     }()
-    
     
     var frequency: Double = 1.35
     var lineWidth: CGFloat = 2
@@ -63,6 +64,15 @@ class SpinView: UIView {
         didSet {
             spinLayer.strokeColor = lineColor.cgColor
         }
+    }
+    
+    init(spinViewStyle: SpinViewStyle = .medium) {
+        super.init(frame: CGRect(x: 0, y: 0, width: spinViewStyle.rawValue, height: spinViewStyle.rawValue))
+        isHidden = true
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
     func startAnimating() {
@@ -82,6 +92,12 @@ class SpinView: UIView {
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         return nil
+    }
+    
+    enum  SpinViewStyle: CGFloat {
+        case small = 20
+        case medium = 26
+        case large = 32
     }
     
 }

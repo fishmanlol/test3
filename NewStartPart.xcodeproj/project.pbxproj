@@ -18,6 +18,9 @@
 		8E1DB09B22D548CD004E93BD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09A22D548CD004E93BD /* String.swift */; };
 		8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */; };
 		8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */; };
+		8E2A970522DF9F1E00836BFF /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2A970422DF9F1E00836BFF /* PhoneNumber.swift */; };
+		8E2A970722DFA16C00836BFF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2A970622DFA16C00836BFF /* UserDefaults.swift */; };
+		8E2A970D22DFA2F400836BFF /* AiTmedResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2A970C22DFA2F400836BFF /* AiTmedResult.swift */; };
 		8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */; };
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
@@ -29,6 +32,14 @@
 		8ED0415122DE39ED00BA795F /* StartBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0415022DE39ED00BA795F /* StartBaseViewController.swift */; };
 		8ED0415322DE952A00BA795F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0415222DE952A00BA795F /* Validator.swift */; };
 		8ED0415522DEA64E00BA795F /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0415422DEA64E00BA795F /* APIService.swift */; };
+		8EFD668C22DFCA0D00FCABD7 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD668B22DFCA0C00FCABD7 /* LandingViewController.swift */; };
+		8EFD668E22DFD28300FCABD7 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD668D22DFD28300FCABD7 /* UINavigationController.swift */; };
+		8EFD669422DFE20600FCABD7 /* SafariManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669122DFE20600FCABD7 /* SafariManager.swift */; };
+		8EFD669522DFE20600FCABD7 /* PortalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669222DFE20600FCABD7 /* PortalViewController.swift */; };
+		8EFD669722DFE3FB00FCABD7 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669622DFE3FB00FCABD7 /* UIButton.swift */; };
+		8EFD669922DFEBEE00FCABD7 /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669822DFEBEE00FCABD7 /* NameViewController.swift */; };
+		8EFD669B22DFEC6D00FCABD7 /* RegistrationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669A22DFEC6D00FCABD7 /* RegistrationInfo.swift */; };
+		8EFD669D22DFF0CC00FCABD7 /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD669C22DFF0CC00FCABD7 /* AgreementViewController.swift */; };
 		ADB8204D9D77586A6078C914 /* Pods_NewStartPart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22522DA8BDB4DFF32405EBC1 /* Pods_NewStartPart.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +56,9 @@
 		8E1DB09A22D548CD004E93BD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		8E1DB09C22D55AB2004E93BD /* TYCodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYCodeTextField.swift; sourceTree = "<group>"; };
 		8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
+		8E2A970422DF9F1E00836BFF /* PhoneNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
+		8E2A970622DFA16C00836BFF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		8E2A970C22DFA2F400836BFF /* AiTmedResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AiTmedResult.swift; sourceTree = "<group>"; };
 		8E2DBF1422CD25DA00EC71FD /* NewStartPart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewStartPart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +72,14 @@
 		8ED0415022DE39ED00BA795F /* StartBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBaseViewController.swift; sourceTree = "<group>"; };
 		8ED0415222DE952A00BA795F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		8ED0415422DEA64E00BA795F /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		8EFD668B22DFCA0C00FCABD7 /* LandingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
+		8EFD668D22DFD28300FCABD7 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		8EFD669122DFE20600FCABD7 /* SafariManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariManager.swift; sourceTree = "<group>"; };
+		8EFD669222DFE20600FCABD7 /* PortalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortalViewController.swift; sourceTree = "<group>"; };
+		8EFD669622DFE3FB00FCABD7 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		8EFD669822DFEBEE00FCABD7 /* NameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
+		8EFD669A22DFEC6D00FCABD7 /* RegistrationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationInfo.swift; sourceTree = "<group>"; };
+		8EFD669C22DFF0CC00FCABD7 /* AgreementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
 		9BAE0BA8926FB694949C6F6A /* Pods-NewStartPart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.debug.xcconfig"; sourceTree = "<group>"; };
 		D69069F5513A3F160C23F628 /* Pods-NewStartPart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewStartPart.release.xcconfig"; path = "Pods/Target Support Files/Pods-NewStartPart/Pods-NewStartPart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,8 +113,29 @@
 				8E1DB09A22D548CD004E93BD /* String.swift */,
 				8E227EA622D7BB8F009D4CA1 /* NotificationName.swift */,
 				8EB78C9022DD539700C208C5 /* UIImage.swift */,
+				8E2A970422DF9F1E00836BFF /* PhoneNumber.swift */,
+				8E2A970622DFA16C00836BFF /* UserDefaults.swift */,
+				8EFD668D22DFD28300FCABD7 /* UINavigationController.swift */,
+				8EFD669622DFE3FB00FCABD7 /* UIButton.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8E2A970A22DFA2CC00836BFF /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8ED0415422DEA64E00BA795F /* APIService.swift */,
+				8E2A970B22DFA2D900836BFF /* APIResults */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		8E2A970B22DFA2D900836BFF /* APIResults */ = {
+			isa = PBXGroup;
+			children = (
+				8E2A970C22DFA2F400836BFF /* AiTmedResult.swift */,
+			);
+			path = APIResults;
 			sourceTree = "<group>";
 		};
 		8E2DBF0B22CD25DA00EC71FD = {
@@ -119,7 +162,9 @@
 				8E2DBF1722CD25DA00EC71FD /* AppDelegate.swift */,
 				8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */,
 				8ED0415222DE952A00BA795F /* Validator.swift */,
-				8ED0415422DEA64E00BA795F /* APIService.swift */,
+				8EFD669A22DFEC6D00FCABD7 /* RegistrationInfo.swift */,
+				8EFD668F22DFE20600FCABD7 /* Portal */,
+				8E2A970A22DFA2CC00836BFF /* API */,
 				8ED0414F22DE38B700BA795F /* Controllers */,
 				8EB6969C22D94F5600A988C1 /* TYButton */,
 				8EB6969B22D94F4700A988C1 /* TYLabel */,
@@ -164,10 +209,22 @@
 		8ED0414F22DE38B700BA795F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8EFD669C22DFF0CC00FCABD7 /* AgreementViewController.swift */,
+				8EFD669822DFEBEE00FCABD7 /* NameViewController.swift */,
+				8EFD668B22DFCA0C00FCABD7 /* LandingViewController.swift */,
 				8ED0414D22DE38B300BA795F /* LoginViewController.swift */,
 				8ED0415022DE39ED00BA795F /* StartBaseViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8EFD668F22DFE20600FCABD7 /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				8EFD669122DFE20600FCABD7 /* SafariManager.swift */,
+				8EFD669222DFE20600FCABD7 /* PortalViewController.swift */,
+			);
+			path = Portal;
 			sourceTree = "<group>";
 		};
 		96F7F7BC672E08B1093673DF /* Pods */ = {
@@ -323,6 +380,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E1DB09B22D548CD004E93BD /* String.swift in Sources */,
+				8EFD668E22DFD28300FCABD7 /* UINavigationController.swift in Sources */,
+				8EFD669B22DFEC6D00FCABD7 /* RegistrationInfo.swift in Sources */,
 				8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */,
 				8EB6969E22D94F6300A988C1 /* TYButton.swift in Sources */,
 				10B779CA22D4E0B6004E1532 /* Country.swift in Sources */,
@@ -330,14 +389,23 @@
 				8EB78C8F22DD23D300C208C5 /* SpinView.swift in Sources */,
 				8ED0415522DEA64E00BA795F /* APIService.swift in Sources */,
 				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
+				8E2A970522DF9F1E00836BFF /* PhoneNumber.swift in Sources */,
 				8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */,
+				8EFD669D22DFF0CC00FCABD7 /* AgreementViewController.swift in Sources */,
+				8EFD669722DFE3FB00FCABD7 /* UIButton.swift in Sources */,
+				8EFD668C22DFCA0D00FCABD7 /* LandingViewController.swift in Sources */,
 				8ED0415122DE39ED00BA795F /* StartBaseViewController.swift in Sources */,
+				8EFD669422DFE20600FCABD7 /* SafariManager.swift in Sources */,
 				1030CDE822D2E73F00F5154E /* UIView.swift in Sources */,
 				8EB78C9122DD539700C208C5 /* UIImage.swift in Sources */,
 				8E1DB09622D51157004E93BD /* UIFont.swift in Sources */,
+				8E2A970D22DFA2F400836BFF /* AiTmedResult.swift in Sources */,
+				8EFD669922DFEBEE00FCABD7 /* NameViewController.swift in Sources */,
+				8E2A970722DFA16C00836BFF /* UserDefaults.swift in Sources */,
 				8ED0415322DE952A00BA795F /* Validator.swift in Sources */,
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
+				8EFD669522DFE20600FCABD7 /* PortalViewController.swift in Sources */,
 				8ED0414E22DE38B300BA795F /* LoginViewController.swift in Sources */,
 				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,
 				8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */,

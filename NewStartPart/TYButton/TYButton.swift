@@ -10,9 +10,8 @@ import UIKit
 
 class TYButton: UIButton {
     private var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 1]
-    private var tempColor = UIColor.clear
     
-    var disabledBackgroudColor: UIColor = UIColor.darkGray
+    var disabledBackgroudColor: UIColor = UIColor.lightGray
     
     var isLoading: Bool {
         get {
@@ -22,8 +21,6 @@ class TYButton: UIButton {
     
     private lazy var spin: SpinView = {
         let spin = SpinView()
-        spin.center = CGPoint(x: bounds.width * 0.5, y: bounds.height * 0.5)
-        spin.bounds.size = CGSize(width: 28, height: 28)
         addSubview(spin)
         return spin
     }()
@@ -52,11 +49,35 @@ class TYButton: UIButton {
         super.setTitleColor(color, for: state)
         
         attributes[NSAttributedString.Key.foregroundColor] = color
-        setAttributedTitle(NSAttributedString(string: currentAttributedTitle?.string ?? "", attributes: attributes), for: state)
+        setAttributedTitle(NSAttributedString(string: currentTitle, attributes: attributes), for: state)
     }
     
     override func titleColor(for state: UIControl.State) -> UIColor? {
         return attributes[NSAttributedString.Key.foregroundColor] as? UIColor
+    }
+    
+    override var currentTitle: String {
+        return currentAttributedTitle?.string ?? ""
+    }
+    
+    override var backgroundColor: UIColor? {
+        didSet {
+            setBackgroundImage(nil, for: .normal)
+        }
+    }
+    
+    var kern: CGFloat = 0 {
+        didSet {
+            attributes[NSAttributedString.Key.kern] = kern
+            setAttributedTitle(NSAttributedString(string: currentTitle, attributes: attributes), for: .normal)
+        }
+    }
+    
+    var titleFont: UIFont? {
+        didSet {
+            attributes[NSAttributedString.Key.font] = titleFont
+            setAttributedTitle(NSAttributedString(string: currentTitle, attributes: attributes), for: .normal)
+        }
     }
     
     override init(frame: CGRect) {
@@ -71,6 +92,7 @@ class TYButton: UIButton {
     private func setup() {
         setBackgroundImage(UIImage.from(UIColor(r: 59, g: 143, b: 206)), for: .normal)
         setBackgroundImage(UIImage.from(disabledBackgroudColor), for: .disabled)
+        spin.lineColor = UIColor(r: 59, g: 143, b: 206)
         setTitleColor(UIColor.white, for: .normal)
         layer.masksToBounds = true
     }
@@ -79,15 +101,15 @@ class TYButton: UIButton {
         super.layoutSubviews()
         
         layer.cornerRadius = bounds.height * 0.5
+        spin.center = CGPoint(x: bounds.width * 0.5, y: bounds.height * 0.5)
     }
     
     private func hideTitleLabel() {
-        tempColor = currentTitleColor
-        titleLabel?.textColor = .clear
+        titleLabel?.layer.opacity = 0
     }
     
     private func restoreTitleLabel() {
-        titleLabel?.textColor = tempColor
+        titleLabel?.layer.opacity = 1
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

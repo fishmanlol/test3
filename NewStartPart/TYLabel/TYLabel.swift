@@ -20,11 +20,14 @@ class TYLabel: UILabel {
     //public functions
     public func makeClickable(at range: Range<String.Index>, handler: @escaping (String) -> Void) {
         guard let attributedText = attributedText, let text = text else { return }
+        let clamped = range.clamped(to: text.range(of: text)!)
         clickableArray.append((range, handler))
         
         //attach attributes on clickable string
         let mutable = NSMutableAttributedString(attributedString: attributedText)
-        let nsrange = (text as NSString).range(of: String(text[range]))
+//        let nsrange = (text as NSString).range(of: String(text[range]))
+        let nsrange = NSRange(clamped, in: text)
+        print(nsrange)
         mutable.addAttributes(clickableAttributes, range: nsrange)
         self.attributedText = mutable
         print(attributedText)

@@ -11,10 +11,9 @@ import SnapKit
 
 class StartBaseViewController: UIViewController {
     weak var backButton: UIButton!
-    weak var nextButton: UIButton!
+    weak var nextButton: TYButton!
     
-    private  var defaultDistanceToBottom: CGFloat = 40
-    
+    private  var defaultDistanceToBottom: CGFloat = 60
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,36 +23,41 @@ class StartBaseViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom)
         popupKeyboardIfNeeded()
     }
     
-    @objc func keyboardFrameChanged(notification: Notification) {
+    @objc func keyboardFrameWillChange(notification: Notification) {
         if let rect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
             let curve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
             let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
             if !(rect.minY < UIScreen.main.bounds.maxY) { //keyboard will out of screen
                 updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom, curve: UInt(curve), duration: duration)
             } else { //keyboard will on screen
-                let keyboardHeight = rect.height
-                updateNextButtonPostion(distanceToBottom: keyboardHeight + 20) //curve: UInt(curve), duration: duration
+                updateNextButtonPostion(distanceToBottom: rect.height + 20) //curve: UInt(curve), duration: duration
             }
         }
     }
     
     @objc func backButtonTapped(sender: UIButton) {
-        print("123")
+        navigationController?.popViewController(animated: true)
     }
     
+    @objc func nextButtonTapped(sender: TYButton) {}
+    
     private func updateNextButtonPostion(distanceToBottom: CGFloat, curve: UInt? = nil, duration: Double? = nil) {
-        nextButton.snp.updateConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-distanceToBottom)
+        let w: CGFloat = 220
+        let h: CGFloat = 40
+        
+        if let curve = curve, let duration = duration {
+            UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve), animations: {
+                self.nextButton.frame = CGRect(x: 0.5 * (self.view.width - w), y: self.view.height - distanceToBottom - h, width: w, height: h)
+            }, completion: nil)
+        } else {
+            UIView.setAnimationsEnabled(false)
+            nextButton.frame = CGRect(x: 0.5 * (view.width - w), y: view.height - distanceToBottom - h, width: w, height: h)
+            UIView.setAnimationsEnabled(true)
         }
-        
-        guard let curve = curve, let duration = duration else { return }
-        
-        UIView.animate(withDuration: duration, delay: 0, options: .init(rawValue: curve), animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
     }
     
     private func popupKeyboardIfNeeded() {
@@ -68,7 +72,7 @@ class StartBaseViewController: UIViewController {
     private func setup() {
         view.backgroundColor = .white
         navigationController?.setNavigationBarHidden(true, animated: false)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
         
         let backButton = UIButton(type: .system)
         backButton.setImage(UIImage(named: "arrow_back"), for: .normal)
@@ -78,6 +82,8 @@ class StartBaseViewController: UIViewController {
         
         let nextButton = TYButton()
         nextButton.setTitle("Continue", for: .normal)
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        nextButton.isEnabled = false
         self.nextButton = nextButton
         view.addSubview(nextButton)
         
@@ -90,13 +96,6 @@ class StartBaseViewController: UIViewController {
                 make.top.equalToSuperview().offset(12)
             }
             make.height.width.equalTo(26)
-        }
-        
-        nextButton.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.width.equalTo(220)
-            make.height.equalTo(40)
-            make.bottom.equalToSuperview().offset(-defaultDistanceToBottom)
         }
     }
 }

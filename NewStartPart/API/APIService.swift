@@ -6,63 +6,78 @@
 ////  Copyright © 2019 Yi Tong. All rights reserved.
 ////
 //
-//import Foundation
-//import Alamofire
-//
-//class APIService {
-//    static let baseURLString = "https://api.aitmed.com/"
-//    
-//    //login
-//    static let loginWithPasswordURLString = "v2beta1/account/patient/login/"
-//    static let loginWithVerificationCodeURLString = "v2beta1/account/patient/login/?method=sms_verify"
-//    //send verification code
-//    static let sendVerificationCodeURLString = "v2beta1/sms/send_verification_code/"
-//    //registration
-//    static let registerURLString = "v2beta1/account/patient/"
-//    //reset password
-//    static var resetPasswordURLString: String {
-//        let userId = UserDefaults.standard.string(forKey: UserDefaults.USERIDKey) ?? ""
-//        return "v2beta1/account/patient/\(userId)/password/"
-//    }
-//    //check user exist
-//    static let userExistsURLString = "v2beta1/account/patient/exists_phone_number/"
-//    
-//    static let shared: APIService = APIService()
-//    
-//    private init() {}
-//    
-//    func login(phoneNumber: String, password: String, completion: @escaping (Bool, RegistrationAndLoginResultData?) -> Void) {
-//        let urlString = APIService.baseURLString + APIService.loginWithPasswordURLString
-//        let parameters = ["phone_number": phoneNumber, "password": password]
-//        
-//        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
-//            
-//            if let error = response.error {
-//                print("login with password error: ", error)
-//                completion(false, nil)
-//                return
-//            }
-//        
-//            if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
-//                if result.errorCode == "0" {
-//                    guard let userId = result.data?.userId, let jwt = result.data?.jwtToken, let tvToken = result.data?.tvToken, let tvId = result.data?.tvId else {
-//                        completion(false, nil)
-//                        return
-//                    }
-//                    print("login with password success")
-//                    self.saveIntoUserDefaults(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
-//                    completion(true, result.data)
-//                } else {
-//                    print("login with password errorr: ", result.errorDetails)
-//                    completion(false, nil)
-//                }
-//                
-//            } else {
-//                print("login with password parse error: ", response.value as? [String: Any])
-//                completion(false, nil)
-//            }
-//        }
-//    }
+import Foundation
+import Alamofire
+
+class APIService {
+    static let baseURLString = "https://api.aitmed.com/"
+    
+    //login
+    static let loginWithPasswordURLString = "v2beta1/account/patient/login/"
+    static let loginWithVerificationCodeURLString = "v2beta1/account/patient/login/?method=sms_verify"
+    //send verification code
+    static let sendVerificationCodeURLString = "v2beta1/sms/send_verification_code/"
+    //registration
+    static let registerURLString = "v2beta1/account/patient/"
+    //reset password
+    static var resetPasswordURLString: String {
+        let userId = UserDefaults.standard.string(forKey: UserDefaults.USERIDKey) ?? ""
+        return "v2beta1/account/patient/\(userId)/password/"
+    }
+    //check user exist
+    static let userExistsURLString = "v2beta1/account/patient/exists_phone_number/"
+    
+    static let shared: APIService = APIService()
+    
+    private init() {}
+    
+    func login(phoneNumber: String, password: String, completion: @escaping (Bool, ErrorDetail?, RegistrationAndLoginResultData?) -> Void) {
+        let urlString = APIService.baseURLString + APIService.loginWithPasswordURLString
+        let parameters = ["phone_number": phoneNumber, "password": password]
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            
+            if let error = response.error {
+                completion(false, ErrorDetail.general, nil)
+                print("login with password error: \(error)")
+                return
+            }
+            
+            if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
+                if result.errorCode == "0" {
+                    guard let userId = result.data?.userId, let jwt = result.data?.jwtToken, let tvToken = result.data?.tvToken, let tvId = result.data?.tvId else {
+                        completion(false, ErrorDetail.general, nil)
+                        return
+                    }
+                    self.saveIntoUserDefaults(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                    completion(true, nil, result.data)
+                } else {
+                    print("login with password errorr: ", result.errorDetails)
+                    if let errorDetail = result.errorDetails?.first {
+                        completion(false, errorDetail, nil)
+                    } else {
+                        completion(false, ErrorDetail.general, nil)
+                    }
+                }
+                
+            } else {
+                print("login with password parse error: ", response.value as? [String: Any])
+                completion(false, ErrorDetail.general, nil)
+            }
+        }
+    }
+    
+    private func saveIntoUserDefaults(userId: String, jwt: String, tvToken: String, tvId: String) {
+        UserDefaults.standard.set(userId, forKey: UserDefaults.USERIDKey)
+        UserDefaults.standard.set(jwt, forKey: UserDefaults.JWTKey)
+        UserDefaults.standard.set(tvToken, forKey: UserDefaults.TVTKey)
+        UserDefaults.standard.set(tvId, forKey: UserDefaults.TVIDKey)
+    }
+        
+}
+    
+
+
 //    
 //    func login(phoneNumber: String, verificationCode: String, completion: @escaping (Bool, RegistrationAndLoginResultData?) -> Void) {
 //        let urlString = APIService.baseURLString + APIService.loginWithVerificationCodeURLString
@@ -217,11 +232,6 @@
 //        }
 //    }
 //    
-//    private func saveIntoUserDefaults(userId: String, jwt: String, tvToken: String, tvId: String) {
-//        UserDefaults.standard.set(userId, forKey: UserDefaults.USERIDKey)
-//        UserDefaults.standard.set(jwt, forKey: UserDefaults.JWTKey)
-//        UserDefaults.standard.set(tvToken, forKey: UserDefaults.TVTKey)
-//        UserDefaults.standard.set(tvId, forKey: UserDefaults.TVIDKey)
-//    }
+
 //}
 //

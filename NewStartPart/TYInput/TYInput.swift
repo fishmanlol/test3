@@ -210,6 +210,8 @@ class TYInput: UIView {
         if inputType == InputType.phoneNumber {
             updatePhoneNumberFormat()
         }
+        
+        delegate?.textFieldValueChanged(self)
     }
 }
 
@@ -338,33 +340,6 @@ extension TYInput { //Helper functions
             self.text = text.onlyNumber
         }
     }
-    
-    private func blink() {
-        if let tyTextField = textField as? TYTextField {
-            let originColor = tyTextField.bottomLineColor
-            let originHeight = tyTextField.bottomLineHeight
-            
-            tyTextField.bottomLineColor = UIColor.red
-            tyTextField.bottomLineHeight = 2
-            
-            UIView.transition(with: tyTextField, duration: 3, options: .curveEaseIn, animations: {
-                tyTextField.layer.displayIfNeeded()
-            }, completion: nil)
-//
-//            UIView.animate(withDuration: 3, animations: {
-//                print("1")
-//                print(tyTextField.layer.needsDisplay())
-//
-//            }) { (_) in
-//                print("2")
-//                tyTextField.bottomLineColor = originColor
-//                tyTextField.bottomLineHeight = originHeight
-//                UIView.animate(withDuration: 0.15, animations: {
-//                    tyTextField.layer.displayIfNeeded()
-//                })
-//            }
-        }
-    }
 }
 
 extension TYInput: UITextFieldDelegate {
@@ -386,7 +361,6 @@ extension TYInput: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.rangeOfCharacter(from: disallowedCharacterSet) != nil {
-            blink()
             return false
         }
         
@@ -410,6 +384,7 @@ protocol TYInputDelegate: class {
     func textField(_ input: TYInput, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
     func textFieldShouldEndEditing(_ input: TYInput) -> Bool
     func textFieldShouldBeginEditing(_ input: TYInput) -> Bool
+    func textFieldValueChanged(_ input: TYInput)
 }
 
 extension TYInputDelegate {
@@ -420,4 +395,5 @@ extension TYInputDelegate {
     func textField(_ input: TYInput, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool { return true }
     func textFieldShouldEndEditing(_ input: TYInput) -> Bool { return true }
     func textFieldShouldBeginEditing(_ input: TYInput) -> Bool { return true }
+    func textFieldValueChanged(_ input: TYInput) {}
 }

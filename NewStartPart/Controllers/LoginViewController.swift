@@ -21,22 +21,76 @@ class LoginViewController: StartBaseViewController {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        passwordInput.text = ""
+    }
+    
     @objc private func forgotPasswordButtonTapped(sender: UIButton) {
         
+    }
+    
+    override func backButtonTapped(sender: UIButton) {
+        navigationController?.pushViewControllerFromLeft(LandingViewController(), animated: true)
+    }
+    
+    override func nextButtonTapped(sender: TYButton) {
+        guard let phoneNumberString = phoneNumberInput.phoneNumber?.formattedString, let password = passwordInput.text else {
+            return
+        }
+        
+        login(phoneNumber: phoneNumberString, password: password)
     }
 }
 
 extension LoginViewController: TYInputDelegate {
-    func textField(_ input: TYInput, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return true
+    func textFieldValueChanged(_ input: TYInput) {
+        hideError()//clear error message if displayed
+        
+        let password = passwordInput.text ?? ""
+        if let _ = phoneNumberInput.phoneNumber, Validator.validPassword(password) { //input valid
+            nextButton.isEnabled = true
+        } else {
+            nextButton.isEnabled = false
+        }
     }
 }
 
 extension LoginViewController { //Network call
-    
+    private func login(phoneNumber: String, password: String) {
+        
+        nextButton.startAnimating()
+        nextButton.isEnabled = false
+        
+        APIService.shared.login(phoneNumber: phoneNumber, password: password) { [weak self] (success, error, result) in
+            self?.nextButton.stopAnimating()
+            self?.nextButton.isEnabled = true
+            
+            if !success {
+                if let error = error {
+                    self?.showError(error.errorMessage)
+                } else {
+                    self?.showError(ErrorDetail.generalErrorMessage)
+                }
+                return
+            }
+            
+            self?.navigationController?.pushViewController(ViewController(), animated: false)
+        }
+    }
 }
 
 extension LoginViewController { //Helper functions
+    
+    private func showError(_ error: String) {
+        errorLabel.text = error
+    }
+    
+    private func hideError() {
+        errorLabel.text = ""
+    }
+    
     private func setup() {
         
         let container = UILayoutGuide()
@@ -59,6 +113,7 @@ extension LoginViewController { //Helper functions
         view.addSubview(phoneNumberInput)
         
         let passwordInput = TYInput(frame: CGRect.zero, type: .password(hide: true))
+        passwordInput.delegate = self
         passwordInput.labelText = "PASSWORD"
         passwordInput.disallowedCharacterSet = CharacterSet.letters
         self.passwordInput = passwordInput
@@ -67,6 +122,7 @@ extension LoginViewController { //Helper functions
         let errorLabel = TYLabel(frame: CGRect.zero)
         errorLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
         errorLabel.textColor = UIColor.red
+        errorLabel.numberOfLines = 0
         self.errorLabel = errorLabel
         view.addSubview(errorLabel)
         
