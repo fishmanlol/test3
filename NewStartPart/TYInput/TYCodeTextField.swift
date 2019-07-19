@@ -46,7 +46,7 @@ class TYCodeTextField: UITextField {
     }
     
     var underLineHeight: CGFloat = 2
-    var underLineWidth: CGFloat = 24
+    var underLineWidth: CGFloat = 36
     var underLineColor: UIColor = UIColor.lightGray
     
     override init(frame: CGRect) {
@@ -60,7 +60,7 @@ class TYCodeTextField: UITextField {
     
     private func setup() {
         self.font = UIFont.menlo(bold: fontBold, size: fontSize)
-        self.textColor = UIColor.lightGray
+        self.textColor = UIColor.black
         self.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         self.keyboardType = .phonePad
         super.delegate = self
@@ -71,13 +71,17 @@ class TYCodeTextField: UITextField {
     
     private var defaultCharacterWidth: CGFloat {
         let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.font: UIFont.menlo(bold: fontBold, size: fontSize)])
+        print("default character width: \(attributedText.size().width), fontSize: \(fontSize)")
         return attributedText.size().width
     }
     
     override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
         var gapWidth = (rect.width - CGFloat(digits) * underLineWidth) / CGFloat(digits - 1)
         gapWidth = gapWidth < 0 ? 0 : gapWidth
         kern = underLineWidth + gapWidth - defaultCharacterWidth
+        print("kern: \(kern)")
         
         let path = UIBezierPath()
         for i in 0..<digits {

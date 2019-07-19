@@ -95,6 +95,7 @@ extension PhoneNumberViewController { //Network calling
                     let phoneVerificationViewController = PhoneVerificationViewController(flow: .forgotPassword)
                     weakSelf.navigationController?.pushViewController(phoneVerificationViewController, animated: false)
                 case .registration(let registrationInfo):
+                    registrationInfo.phoneNumber = phoneNumber
                     let phoneVerificationViewController = PhoneVerificationViewController(flow: .registration(registrationInfo))
                     weakSelf.navigationController?.pushViewController(phoneVerificationViewController, animated: false)
                 }

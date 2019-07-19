@@ -106,12 +106,29 @@ class TYLabel: UILabel {
             mutable.addAttributes(clickableAttributes , range: nsrange)
         }
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        switch textAlignment {
+        case .center:
+            paragraphStyle.alignment = .center
+        case .justified:
+            paragraphStyle.alignment = .justified
+        case .left:
+            paragraphStyle.alignment = .left
+        case .natural:
+            paragraphStyle.alignment = .natural
+        case .right:
+            paragraphStyle.alignment = .right
+        }
+        mutable.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, text?.count ?? 0))
+        
         let cfAttributedString = mutable as CFMutableAttributedString
         let frameSetter = CTFramesetterCreateWithAttributedString(cfAttributedString)
         var fitRange = CFRangeMake(0, 0)
         let suggested = CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, CFRangeMake(0, mutable.length), nil, CGSize(width: bounds.width, height: .greatestFiniteMagnitude), &fitRange)
         let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: max(suggested.width, bounds.width), height: max(suggested.height, bounds.height)))
         ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path.cgPath, nil)
+        
         CTFrameDraw(ctFrame, context)
     }
     

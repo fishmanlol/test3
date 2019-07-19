@@ -49,7 +49,7 @@ class APIService {
                         completion(false, ErrorDetail.general, nil)
                         return
                     }
-                    self.saveIntoUserDefaults(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                    UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
                     completion(true, nil, result.data)
                 } else {
                     print("login with password errorr: ", result.errorDetails)
@@ -128,15 +128,48 @@ class APIService {
             }
         }
     
-
+        func register(phoneNumber: String, verificationCode: String, password: String, firstName: String, middleName: String?, lastName: String?, completion: @escaping (Bool, ErrorDetail?, RegistrationAndLoginResultData?) -> Void) {
+            let urlString = APIService.baseURLString + APIService.registerURLString
+            let parameters: [String: Any] = ["phone_number": phoneNumber,
+                                                "phone_verification_code": verificationCode,
+                                                "password": password,
+                                                "first_name": firstName,
+                                                "middle_name": middleName ?? "",
+                                                "last_name": lastName ?? "",
+                                                "force_delete": true]
     
-    private func saveIntoUserDefaults(userId: String, jwt: String, tvToken: String, tvId: String) {
-        UserDefaults.standard.set(userId, forKey: UserDefaults.USERIDKey)
-        UserDefaults.standard.set(jwt, forKey: UserDefaults.JWTKey)
-        UserDefaults.standard.set(tvToken, forKey: UserDefaults.TVTKey)
-        UserDefaults.standard.set(tvId, forKey: UserDefaults.TVIDKey)
-    }
-        
+            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+    
+                if let error = response.error {
+                    print("register error: ", error)
+                    completion(false, ErrorDetail.general, nil)
+                    return
+                }
+    
+                if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
+                    if result.errorCode == "0" {
+                        guard let userId = result.data?.userId, let jwt = result.data?.jwtToken, let tvToken = result.data?.tvToken, let tvId = result.data?.tvId else {
+                            completion(false, ErrorDetail.general, nil)
+                            return
+                        }
+                        print("register success")
+                        UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                        completion(true, nil, result.data)
+                    } else {
+                        print("register error: ", result.errorDetails)
+                        if let errorDetail = result.errorDetails?.first {
+                            completion(false, errorDetail, nil)
+                        } else {
+                            completion(false, ErrorDetail.general, nil)
+                        }
+                    }
+    
+                } else {
+                    print("register parse error: ", response.value as? [String: Any])
+                    completion(false, ErrorDetail.general, nil)
+                }
+            }
+    }   
 }
     
 
@@ -221,13 +254,13 @@ class APIService {
 //                                            "force_delete": true]
 //
 //        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
-//            
+//
 //            if let error = response.error {
 //                print("register error: ", error)
 //                completion(false, nil)
 //                return
 //            }
-//            
+//
 //            if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
 //                if result.errorCode == "0" {
 //                    guard let userId = result.data?.userId, let jwt = result.data?.jwtToken, let tvToken = result.data?.tvToken, let tvId = result.data?.tvId else {
@@ -241,14 +274,14 @@ class APIService {
 //                    print("register error: ", result.errorDetails)
 //                    completion(false, nil)
 //                }
-//                
+//
 //            } else {
 //                print("register parse error: ", response.value as? [String: Any])
 //                completion(false, nil)
 //            }
 //        }
 //    }
-//    
+//
 //    func resetPassword(phoneNumber: String, verificationCode: String, password: String, completion: @escaping (Bool) -> Void) {
 //        let urlString = APIService.baseURLString + APIService.resetPasswordURLString
 //        let parameters = ["phone_number": phoneNumber,

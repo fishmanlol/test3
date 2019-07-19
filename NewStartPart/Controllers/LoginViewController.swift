@@ -108,6 +108,7 @@ extension LoginViewController { //Helper functions
         
         let phoneNumberInput = TYInput(frame: CGRect.zero, type: .phoneNumber)
         phoneNumberInput.delegate = self
+        phoneNumberInput.labelColor = UIColor(r: 79, g: 170, b: 248)
         phoneNumberInput.labelText = "MOBILE NUMBER"
         self.phoneNumberInput = phoneNumberInput
         view.addSubview(phoneNumberInput)

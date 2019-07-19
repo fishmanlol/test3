@@ -17,7 +17,7 @@ enum InputType: Equatable {
 }
 
 class TYInput: UIView {
-    private var secureButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.darkGray, NSAttributedStringKey.font: UIFont.avenirNext(bold: .regular, size: 15)]
+    private var secureButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.avenirNext(bold: .regular, size: 15)]
     private var codeButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor(r: 79, g: 170, b: 248), NSAttributedStringKey.font: UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)]
     
     weak var textField: UITextField!
@@ -141,7 +141,7 @@ class TYInput: UIView {
     
     lazy var label: TYLabel = {
         let label = TYLabel(frame: CGRect.zero)
-        label.font = UIFont.avenirNext(bold: .medium, size: UIFont.smallFontSize)
+        label.font = UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.kern = 1.2
         label.textColor = UIColor.drakGray
@@ -230,11 +230,13 @@ extension TYInput { //Helper functions
         case .normal:
             textField = TYTextField()
             self.textField = textField
+            textFont = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
             textKern = 1
         case .password(let hide):
             textField = TYTextField()
             self.textField = textField
             textKern = 1
+            textFont = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
             textField.rightView = secureButton
             textField.rightViewMode = .always
             
@@ -245,6 +247,7 @@ extension TYInput { //Helper functions
             textField = TYTextField()
             self.textField = textField
             textKern = 1
+            textFont = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
             textField.leftView = codeContainer
             textField.leftViewMode = .always
             textField.keyboardType = .numberPad
@@ -254,7 +257,6 @@ extension TYInput { //Helper functions
             self.textField = textField
         }
         
-        textFont = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         textField.delegate = self

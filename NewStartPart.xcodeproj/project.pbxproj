@@ -10,6 +10,7 @@
 		1030CDE322D2DE4E00F5154E /* TYInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE222D2DE4E00F5154E /* TYInput.swift */; };
 		1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE422D2E3E700F5154E /* TYTextField.swift */; };
 		1030CDE822D2E73F00F5154E /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1030CDE722D2E73F00F5154E /* UIView.swift */; };
+		108B648A22E24747002993BC /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108B648922E24747002993BC /* HUD.swift */; };
 		10B779CA22D4E0B6004E1532 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779C922D4E0B6004E1532 /* Country.swift */; };
 		10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779CB22D4EB27004E1532 /* CountryListController.swift */; };
 		10B779CE22D4ED04004E1532 /* countries in Resources */ = {isa = PBXBuildFile; fileRef = 10B779CD22D4ED04004E1532 /* countries */; };
@@ -51,6 +52,7 @@
 		1030CDE222D2DE4E00F5154E /* TYInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYInput.swift; sourceTree = "<group>"; };
 		1030CDE422D2E3E700F5154E /* TYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYTextField.swift; sourceTree = "<group>"; };
 		1030CDE722D2E73F00F5154E /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		108B648922E24747002993BC /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		10B779C922D4E0B6004E1532 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		10B779CB22D4EB27004E1532 /* CountryListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListController.swift; sourceTree = "<group>"; };
 		10B779CD22D4ED04004E1532 /* countries */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = countries; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */,
 				8ED0415222DE952A00BA795F /* Validator.swift */,
 				8EFD669A22DFEC6D00FCABD7 /* RegistrationInfo.swift */,
+				108B648922E24747002993BC /* HUD.swift */,
 				8EFD668F22DFE20600FCABD7 /* Portal */,
 				8E2A970A22DFA2CC00836BFF /* API */,
 				8ED0414F22DE38B700BA795F /* Controllers */,
@@ -424,6 +427,7 @@
 				8EFD669522DFE20600FCABD7 /* PortalViewController.swift in Sources */,
 				8ED0414E22DE38B300BA795F /* LoginViewController.swift in Sources */,
 				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,
+				108B648A22E24747002993BC /* HUD.swift in Sources */,
 				8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */,
 				8E2DBF1822CD25DA00EC71FD /* AppDelegate.swift in Sources */,
 			);
