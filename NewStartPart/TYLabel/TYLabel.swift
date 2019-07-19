@@ -12,25 +12,22 @@ class TYLabel: UILabel {
     
     private var ctFrame: CTFrame!
     private var clickableArray: [(Range<String.Index>, (String) -> Void)] = []
-    private var clickableAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.blue]
+    var clickableAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.blue]
     private var clickable = false
     
-    var attributes: [NSAttributedStringKey: Any] = [:]
+    private var attributes: [NSAttributedStringKey: Any] = [:]
     
     //public functions
     public func makeClickable(at range: Range<String.Index>, handler: @escaping (String) -> Void) {
-        guard let attributedText = attributedText, let text = text else { return }
-        let clamped = range.clamped(to: text.range(of: text)!)
-        clickableArray.append((range, handler))
+        guard let attributedText = attributedText, let text = text, let wholeRange = text.range(of: text) else { return }
+        let clamped = range.clamped(to: wholeRange)
+        clickableArray.append((clamped, handler))
         
         //attach attributes on clickable string
         let mutable = NSMutableAttributedString(attributedString: attributedText)
-//        let nsrange = (text as NSString).range(of: String(text[range]))
         let nsrange = NSRange(clamped, in: text)
-        print(nsrange)
         mutable.addAttributes(clickableAttributes, range: nsrange)
         self.attributedText = mutable
-        print(attributedText)
     }
     
     //overrides
@@ -40,8 +37,8 @@ class TYLabel: UILabel {
         }
         
         set {
-            guard let newValue = newValue else { return }
-            updateText(to: newValue)
+            attributedText = NSAttributedString(string: newValue ?? "", attributes: attributes)
+            setNeedsDisplay()
         }
     }
     
@@ -52,8 +49,9 @@ class TYLabel: UILabel {
         }
         
         set {
-            attributes[NSAttributedStringKey.foregroundColor] = newValue
-            updateText(to: text ?? "")
+            
+            attributes[NSMutableAttributedString.Key.foregroundColor] = newValue
+            updateText()
         }
     }
     
@@ -64,8 +62,20 @@ class TYLabel: UILabel {
         }
         
         set {
-            attributes[NSAttributedStringKey.font] = newValue
-            updateText(to: text ?? "")
+            attributes[NSMutableAttributedString.Key.font] = newValue
+            updateText()
+        }
+    }
+    
+    var kern: CGFloat {
+        get {
+            guard let k = attributes[NSAttributedStringKey.kern] as? CGFloat else { return 0 }
+            return k
+        }
+        
+        set {
+            attributes[NSMutableAttributedString.Key.kern] = newValue
+            updateText()
         }
     }
     
@@ -80,35 +90,28 @@ class TYLabel: UILabel {
         super.init(coder: aDecoder)
     }
     
-    //self-owned
-    var kern: CGFloat {
-        get {
-            guard let k = attributes[NSAttributedStringKey.kern] as? CGFloat else { return 0 }
-            return k
+    override func draw(_ rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext(), let attributedText = attributedText else { return }
+        if !clickable {
+            super.draw(rect)
+            return
         }
         
-        set {
-            attributes[NSAttributedStringKey.kern] = newValue
-        }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext(), let text = text else { return }
-
         context.translateBy(x: 0, y: bounds.height)
         context.scaleBy(x: 1, y: -1)
-
-        let path = UIBezierPath(rect: bounds)
-        let mutable = NSMutableAttributedString(string: text, attributes: attributes)
+        
+        let mutable = NSMutableAttributedString(attributedString: attributedText)
         for (range, _) in clickableArray {
-            let nsrange = (text as NSString).range(of: String(text[range]))
+            let nsrange = NSRange(range, in: attributedText.string)
             mutable.addAttributes(clickableAttributes , range: nsrange)
         }
+        
         let cfAttributedString = mutable as CFMutableAttributedString
-        
         let frameSetter = CTFramesetterCreateWithAttributedString(cfAttributedString)
+        var fitRange = CFRangeMake(0, 0)
+        let suggested = CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, CFRangeMake(0, mutable.length), nil, CGSize(width: bounds.width, height: .greatestFiniteMagnitude), &fitRange)
+        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: max(suggested.width, bounds.width), height: max(suggested.height, bounds.height)))
         ctFrame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path.cgPath, nil)
-        
         CTFrameDraw(ctFrame, context)
     }
     
@@ -123,13 +126,13 @@ class TYLabel: UILabel {
                 return CTLineGetStringIndexForPosition(line, flipped) as Int
             }
         }
-
         return nil
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let text = text else { return }
         let point = touch.location(in: self)
+        print(point)
         if let index = self.indexAtPoint(point) {
             let stringIndex = text.index(text.startIndex, offsetBy: index)
             let clickableArrayCount = clickableArray.count
@@ -157,12 +160,14 @@ class TYLabel: UILabel {
     
     private func setup() {
         isUserInteractionEnabled = true
-        font = UIFont.avenirNext(bold: .regular, size: 17)
         kern = 1
     }
     
-    private func updateText(to text: String) {
+    private func updateText() {
         clickableArray.removeAll()
-        attributedText = NSAttributedString(string: text, attributes: attributes)
+        attributedText = NSAttributedString(string: text ?? "", attributes: attributes)
+        if clickable {
+            setNeedsDisplay()
+        }
     }
 }

@@ -25,6 +25,10 @@
 		8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF1B22CD25DA00EC71FD /* ViewController.swift */; };
 		8E2DBF2122CD25DC00EC71FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */; };
 		8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */; };
+		8E5259E722E0E116007B6709 /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5259E622E0E116007B6709 /* PasswordViewController.swift */; };
+		8E5259FC22E12381007B6709 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5259FB22E12381007B6709 /* PhoneNumberViewController.swift */; };
+		8E5259FE22E13A94007B6709 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5259FD22E13A94007B6709 /* UIViewController.swift */; };
+		8E525A0022E1443F007B6709 /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5259FF22E1443F007B6709 /* PhoneVerificationViewController.swift */; };
 		8EB6969E22D94F6300A988C1 /* TYButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6969D22D94F6300A988C1 /* TYButton.swift */; };
 		8EB78C8F22DD23D300C208C5 /* SpinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB78C8E22DD23D300C208C5 /* SpinView.swift */; };
 		8EB78C9122DD539700C208C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB78C9022DD539700C208C5 /* UIImage.swift */; };
@@ -65,6 +69,10 @@
 		8E2DBF2022CD25DC00EC71FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E2DBF2522CD25DC00EC71FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E2DBF2D22CD4CC600EC71FD /* TYLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYLabel.swift; sourceTree = "<group>"; };
+		8E5259E622E0E116007B6709 /* PasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		8E5259FB22E12381007B6709 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
+		8E5259FD22E13A94007B6709 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		8E5259FF22E1443F007B6709 /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		8EB6969D22D94F6300A988C1 /* TYButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TYButton.swift; sourceTree = "<group>"; };
 		8EB78C8E22DD23D300C208C5 /* SpinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinView.swift; sourceTree = "<group>"; };
 		8EB78C9022DD539700C208C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -117,6 +125,7 @@
 				8E2A970622DFA16C00836BFF /* UserDefaults.swift */,
 				8EFD668D22DFD28300FCABD7 /* UINavigationController.swift */,
 				8EFD669622DFE3FB00FCABD7 /* UIButton.swift */,
+				8E5259FD22E13A94007B6709 /* UIViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -211,6 +220,9 @@
 			children = (
 				8EFD669C22DFF0CC00FCABD7 /* AgreementViewController.swift */,
 				8EFD669822DFEBEE00FCABD7 /* NameViewController.swift */,
+				8E5259E622E0E116007B6709 /* PasswordViewController.swift */,
+				8E5259FB22E12381007B6709 /* PhoneNumberViewController.swift */,
+				8E5259FF22E1443F007B6709 /* PhoneVerificationViewController.swift */,
 				8EFD668B22DFCA0C00FCABD7 /* LandingViewController.swift */,
 				8ED0414D22DE38B300BA795F /* LoginViewController.swift */,
 				8ED0415022DE39ED00BA795F /* StartBaseViewController.swift */,
@@ -380,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E1DB09B22D548CD004E93BD /* String.swift in Sources */,
+				8E525A0022E1443F007B6709 /* PhoneVerificationViewController.swift in Sources */,
 				8EFD668E22DFD28300FCABD7 /* UINavigationController.swift in Sources */,
 				8EFD669B22DFEC6D00FCABD7 /* RegistrationInfo.swift in Sources */,
 				8E1DB09922D5430C004E93BD /* UIColor.swift in Sources */,
@@ -387,7 +400,9 @@
 				10B779CA22D4E0B6004E1532 /* Country.swift in Sources */,
 				1030CDE322D2DE4E00F5154E /* TYInput.swift in Sources */,
 				8EB78C8F22DD23D300C208C5 /* SpinView.swift in Sources */,
+				8E5259FE22E13A94007B6709 /* UIViewController.swift in Sources */,
 				8ED0415522DEA64E00BA795F /* APIService.swift in Sources */,
+				8E5259E722E0E116007B6709 /* PasswordViewController.swift in Sources */,
 				1030CDE522D2E3E700F5154E /* TYTextField.swift in Sources */,
 				8E2A970522DF9F1E00836BFF /* PhoneNumber.swift in Sources */,
 				8E1DB09D22D55AB2004E93BD /* TYCodeTextField.swift in Sources */,
@@ -401,6 +416,7 @@
 				8E1DB09622D51157004E93BD /* UIFont.swift in Sources */,
 				8E2A970D22DFA2F400836BFF /* AiTmedResult.swift in Sources */,
 				8EFD669922DFEBEE00FCABD7 /* NameViewController.swift in Sources */,
+				8E5259FC22E12381007B6709 /* PhoneNumberViewController.swift in Sources */,
 				8E2A970722DFA16C00836BFF /* UserDefaults.swift in Sources */,
 				8ED0415322DE952A00BA795F /* Validator.swift in Sources */,
 				8E2DBF2E22CD4CC600EC71FD /* TYLabel.swift in Sources */,

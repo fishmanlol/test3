@@ -25,6 +25,24 @@ class NameViewController: StartBaseViewController {
         setup()
     }
     
+    override func nextButtonTapped(sender: TYButton) {
+        registrationInfo.firstName = firstNameInput.text ?? ""
+        registrationInfo.lastName = lastNameInput.text ?? ""
+        
+        navigationController?.pushViewController(PasswordViewController(registrationInfo: registrationInfo), animated: false)
+    }
+}
+
+extension NameViewController: TYInputDelegate {
+    func textFieldValueChanged(_ input: TYInput) {
+        let firstName = firstNameInput.text ?? ""
+        let lastName = lastNameInput.text ?? ""
+        if Validator.validName(firstName) && Validator.validName(lastName) {
+            nextButton.isEnabled = true
+        } else {
+            nextButton.isEnabled = false
+        }
+    }
 }
 
 extension NameViewController {//Helper functions
@@ -36,28 +54,43 @@ extension NameViewController {//Helper functions
         view.addLayoutGuide(container)
         
         let titleLabel = TYLabel(frame: CGRect.zero)
+        titleLabel.font = UIFont.avenirNext(bold: .medium, size: UIFont.largeFontSize)
+        titleLabel.text = "What's your name?"
+        titleLabel.textAlignment = .center
         self.titleLabel = titleLabel
         view.addSubview(titleLabel)
         
         let firstNameInput = TYInput(frame: CGRect.zero)
+        firstNameInput.labelText = "FIRST NAME"
+        firstNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines
+        firstNameInput.delegate = self
         self.firstNameInput = firstNameInput
         view.addSubview(firstNameInput)
         
         let lastNameInput = TYInput(frame: CGRect.zero)
+        lastNameInput.labelText = "LAST NAME"
+        lastNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines
+        lastNameInput.delegate = self
         self.lastNameInput = lastNameInput
         view.addSubview(lastNameInput)
         
         let agreementLabel = TYLabel(frame: CGRect.zero, clickable: true)
-        let agreementString = "By tapping Sign Up & Accept, you acknowledge that you have read the Privacy Policy and agree to the Term of Service"
-//        agreementLabel.text = agreementString
+        agreementLabel.numberOfLines = 0
+        agreementLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
+        let agreementString = "By tapping Sign Up & Accept, you acknowledge that you have read the Privacy Policy and agree to the Term of Service."
+        agreementLabel.text = agreementString
+        self.agreementLabel = agreementLabel
+        view.addSubview(agreementLabel)
         if let privacyRange =  agreementString.range(of: "Privacy Policy"), let tosRange =  agreementString.range(of: "Term of Service") {
             print(privacyRange)
             agreementLabel.makeClickable(at: privacyRange) { [weak self] (title) in
-                self?.present(AgreementViewController(agreement: .privacy), animated: true, completion: nil)
+                let navController = UINavigationController(rootViewController: AgreementViewController(agreement: .privacy))
+                self?.present(navController, animated: true, completion: nil)
             }
             
             agreementLabel.makeClickable(at: tosRange) { [weak self] (title) in
-                self?.present(AgreementViewController(agreement: .tos), animated: true, completion: nil)
+                let navController = UINavigationController(rootViewController: AgreementViewController(agreement: .tos))
+                self?.present(navController, animated: true, completion: nil)
             }
         }
         
@@ -67,19 +100,25 @@ extension NameViewController {//Helper functions
             make.left.equalToSuperview().offset(60)
         }
         
+        titleLabel.snp.makeConstraints { (make) in
+            make.centerX.top.equalTo(container)
+        }
+        
         firstNameInput.snp.makeConstraints { (make) in
             make.left.right.equalTo(container)
             make.top.equalTo(titleLabel.snp.bottom).offset(36)
+            make.height.equalTo(60)
         }
         
         lastNameInput.snp.makeConstraints { (make) in
             make.left.right.equalTo(container)
             make.top.equalTo(firstNameInput.snp.bottom).offset(18)
+            make.height.equalTo(60)
         }
         
         agreementLabel.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(lastNameInput.snp.bottom)
+            make.left.right.equalTo(container)
+            make.top.equalTo(lastNameInput.snp.bottom).offset(6)
         }
         
     }

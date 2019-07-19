@@ -99,3 +99,8 @@ class StartBaseViewController: UIViewController {
         }
     }
 }
+
+enum Flow {
+    case registration(RegistrationInfo)
+    case forgotPassword
+}

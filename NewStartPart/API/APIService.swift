@@ -67,6 +67,69 @@ class APIService {
         }
     }
     
+        func isPhoneNumberExists(phoneNumber: String, completion: @escaping (Bool, ErrorDetail?, UserExistsResultData?) -> Void) {
+            let urlStirng = APIService.baseURLString + APIService.userExistsURLString
+            let parameters = ["phone_number": phoneNumber]
+    
+            Alamofire.request(urlStirng, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+                if let error = response.error {
+                    print("Check user exists error: ", error)
+                    completion(false, ErrorDetail.general, nil)
+                    return
+                }
+    
+                if let dict = response.value as? [String: Any], let result = AiTmedResult<UserExistsResultData>(dict: dict) {
+                    if result.errorCode == "0" {
+                        print("Check user exists success")
+                        completion(true, nil, result.data)
+                    } else {
+                        print("Check user exists error: ", result.errorDetails)
+                        if let errorDetail = result.errorDetails?.first {
+                            completion(false, errorDetail, nil)
+                        } else {
+                            completion(false, ErrorDetail.general, nil)
+                        }
+                    }
+                } else {
+                    print("Check user exists parse error: ", response.value as? [String: Any])
+                    completion(false, ErrorDetail.general, nil)
+                }
+            }
+        }
+    
+        func sendVerficationCode(phoneNumber: String, completion: @escaping (Bool, ErrorDetail?) -> Void) {
+            let urlString = APIService.baseURLString + APIService.sendVerificationCodeURLString
+            let parameters: [String: String] = ["phone_number": phoneNumber]
+    
+            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+    
+                if let error = response.error {
+                    print("send vrfication code error: ", error)
+                    completion(false, ErrorDetail.general)
+                    return
+                }
+    
+                if let dict = response.value as? [String: Any], let result = AiTmedResult<VerificationResultData>(dict: dict) {
+                    if result.errorCode == "0" {
+                        print("send verification code success")
+                        completion(true, nil)
+                    } else {
+                        print("send verification code error", result.errorDetails)
+                        if let errorDetail = result.errorDetails?.first {
+                            completion(false, errorDetail)
+                        } else {
+                            completion(false, ErrorDetail.general)
+                        }
+                    }
+                } else {
+                    print("send verification code parse error: ", response.value as? [String: Any])
+                    completion(false, ErrorDetail.general)
+                }
+            }
+        }
+    
+
+    
     private func saveIntoUserDefaults(userId: String, jwt: String, tvToken: String, tvId: String) {
         UserDefaults.standard.set(userId, forKey: UserDefaults.USERIDKey)
         UserDefaults.standard.set(jwt, forKey: UserDefaults.JWTKey)

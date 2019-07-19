@@ -28,7 +28,7 @@ class LoginViewController: StartBaseViewController {
     }
     
     @objc private func forgotPasswordButtonTapped(sender: UIButton) {
-        
+        titleLabel.textColor = .red
     }
     
     override func backButtonTapped(sender: UIButton) {
@@ -99,8 +99,8 @@ extension LoginViewController { //Helper functions
         
         let titleLabel = TYLabel(frame: CGRect.zero)
         titleLabel.text = "Log In"
+        titleLabel.textAlignment = .center
         titleLabel.font = UIFont.avenirNext(bold: .medium, size: UIFont.largeFontSize)
-        titleLabel.textColor = UIColor.black
         
         titleLabel.textAlignment = .center
         self.titleLabel = titleLabel
@@ -127,6 +127,7 @@ extension LoginViewController { //Helper functions
         view.addSubview(errorLabel)
         
         let forgotPasswordButton = UIButton(type: .system)
+        forgotPasswordButton.setTitleColor(UIColor.blue, for: .normal)
         forgotPasswordButton.setTitle("Forgot your password?", for: .normal)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         self.forgotPasswordButton = forgotPasswordButton
@@ -140,6 +141,8 @@ extension LoginViewController { //Helper functions
         
         titleLabel.snp.makeConstraints { (make) in
             make.centerX.top.equalTo(container)
+            make.height.equalTo(40)
+            make.width.equalTo(200)
         }
         
         phoneNumberInput.snp.makeConstraints { (make) in
