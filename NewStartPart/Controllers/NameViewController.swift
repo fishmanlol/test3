@@ -62,14 +62,14 @@ extension NameViewController {//Helper functions
         
         let firstNameInput = TYInput(frame: CGRect.zero)
         firstNameInput.labelText = "FIRST NAME"
-        firstNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines
+        firstNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.decimalDigits)
         firstNameInput.delegate = self
         self.firstNameInput = firstNameInput
         view.addSubview(firstNameInput)
         
         let lastNameInput = TYInput(frame: CGRect.zero)
         lastNameInput.labelText = "LAST NAME"
-        lastNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines
+        lastNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.decimalDigits)
         lastNameInput.delegate = self
         self.lastNameInput = lastNameInput
         view.addSubview(lastNameInput)

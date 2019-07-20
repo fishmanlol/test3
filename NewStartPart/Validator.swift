@@ -11,7 +11,7 @@ import Foundation
 class Validator {
     //Can not be empty, and cannot be empty after trimmed
     static func validName(_ name: String) -> Bool {
-        guard name.count != 0 else { return false }
+        guard name.count != 0, name.rangeOfCharacter(from: CharacterSet.decimalDigits) == nil else { return false }
         return true
     }
     

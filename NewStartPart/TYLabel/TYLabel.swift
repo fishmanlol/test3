@@ -91,11 +91,11 @@ class TYLabel: UILabel {
     }
     
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext(), let attributedText = attributedText else { return }
         if !clickable {
             super.draw(rect)
             return
         }
+        guard let context = UIGraphicsGetCurrentContext(), let attributedText = attributedText else { return }
         
         context.translateBy(x: 0, y: bounds.height)
         context.scaleBy(x: 1, y: -1)

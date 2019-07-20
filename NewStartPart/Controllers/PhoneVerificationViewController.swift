@@ -44,7 +44,6 @@ class PhoneVerificationViewController: StartBaseViewController {
     deinit {
         timer?.invalidate()
         timer = nil
-        print(#function)
     }
 }
 
@@ -56,10 +55,13 @@ extension PhoneVerificationViewController { //Network calling
         let firstName = info.firstName ?? ""
         let lastName = info.lastName ?? ""
         
+        HUD.show("Verifying...")
         APIService.shared.register(phoneNumber: phoneNumber, verificationCode: verificationCode, password: password, firstName: firstName, middleName: nil, lastName: lastName) { [weak self] (success, error, result) in
             guard let weakSelf = self else { return }
+            HUD.hide(min: 1)
             if !success {
                 weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
+                let _ = weakSelf.codeInput.becomeFirstResponder()
                 return
             }
             weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
@@ -79,6 +81,10 @@ extension PhoneVerificationViewController: TYInputDelegate {
                 register(with: registrationInfo)
             }
         }
+    }
+    
+    func textFieldValueChanged(_ input: TYInput) {
+        hideError()
     }
 }
 
@@ -137,11 +143,6 @@ extension PhoneVerificationViewController { //Helper functions
         
         if case let .registration(registrationInfo) = flow! , let phoneNumberString = registrationInfo.phoneNumber {
             descriptionLabel.text = "Enter the code we send to\n\(phoneNumberString)"
-            if let range = descriptionLabel.text!.range(of: phoneNumberString) {
-                descriptionLabel.makeClickable(at: range) { (_) in
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
         }
         
         let codeInput = TYInput(frame: .zero, type: .pinCode)

@@ -51,13 +51,15 @@ class PhoneNumberViewController: StartBaseViewController {
                 switch weakSelf.flow! {
                 case .forgotPassword:
                     break
-                case .registration(_):
-                    weakSelf.sendVerificationCode(to: phoneNumberString)
+                case .registration(let registrationInfo)://fix later
+                    let phoneVerificationViewController = PhoneVerificationViewController(flow: .registration(registrationInfo))
+                    registrationInfo.phoneNumber = phoneNumberString
+                    weakSelf.navigationController?.pushViewController(phoneVerificationViewController, animated: false)
+//                    weakSelf.sendVerificationCode(to: phoneNumberString)
                 }
             }
         }
     }
-    
 }
 
 extension PhoneNumberViewController { //Network calling
@@ -106,6 +108,7 @@ extension PhoneNumberViewController { //Network calling
 
 extension PhoneNumberViewController: TYInputDelegate {
     func textFieldValueChanged(_ input: TYInput) {
+        hideError()
         if input.phoneNumber != nil {
             nextButton.isEnabled = true
         } else {

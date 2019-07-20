@@ -15,15 +15,14 @@ class ViewController: StartBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let input = TYInput(frame: CGRect(x: 100, y: 100, width: 200, height: 60))
-        input.labelText = "FIRST NAME"
-        self.input = input
-        view.addSubview(input)
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
+        HUD.show("Verifying...")
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        HUD.hide()
     }
 }
 
