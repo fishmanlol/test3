@@ -148,12 +148,7 @@ class APIService {
     
                 if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
                     if result.errorCode == "0" {
-                        guard let userId = result.data?.userId, let jwt = result.data?.jwtToken, let tvToken = result.data?.tvToken, let tvId = result.data?.tvId else {
-                            completion(false, ErrorDetail.general, nil)
-                            return
-                        }
                         print("register success")
-                        UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
                         completion(true, nil, result.data)
                     } else {
                         print("register error: ", result.errorDetails)
@@ -169,7 +164,39 @@ class APIService {
                     completion(false, ErrorDetail.general, nil)
                 }
             }
-    }   
+    }
+    
+        func login(phoneNumber: String, verificationCode: String, completion: @escaping (Bool, ErrorDetail?, RegistrationAndLoginResultData?) -> Void) {
+            let urlString = APIService.baseURLString + APIService.loginWithVerificationCodeURLString
+            let parameters = ["phone_number": phoneNumber, "phone_verification_code": verificationCode]
+    
+            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+    
+                if let error = response.error {
+                    print("login with verification code error: ", error)
+                    completion(false, ErrorDetail.general,nil)
+                    return
+                }
+    
+                if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
+                    if result.errorCode == "0" {
+                        print("login with verification code success")
+                        completion(true, nil, result.data)
+                    } else {
+                        print("login with verification code errorr: ", result.errorDetails)
+                        if let errorDetail = result.errorDetails?.first {
+                            completion(false, errorDetail, nil)
+                        } else {
+                            completion(false, ErrorDetail.general, nil)
+                        }
+                    }
+    
+                } else {
+                    print("login with verification code parse error: ", response.value as? [String: Any])
+                    completion(false, ErrorDetail.general, nil)
+                }
+            }
+        }
 }
     
 

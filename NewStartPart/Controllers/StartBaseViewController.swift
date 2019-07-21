@@ -27,12 +27,32 @@ class StartBaseViewController: UIViewController {
         popupKeyboardIfNeeded()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        view.endEditing(true)
+    }
+    
+    func startLoading() {
+        //1.Disable next button
+        //32 Animate nextbutton
+        nextButton.isEnabled = false
+        nextButton.startAnimating()
+    }
+    
+    func stopLoading() {
+        //1. Stop animating nextbutton
+        //2. Enable next button
+        nextButton.stopAnimating()
+        nextButton.isEnabled = true
+    }
+    
     @objc func keyboardFrameWillChange(notification: Notification) {
         if let rect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let curve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
-            let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
+            let _ = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
+            let _ = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
             if !(rect.minY < UIScreen.main.bounds.maxY) { //keyboard will out of screen
-                updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom, curve: UInt(curve), duration: duration)
+                updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom)
             } else { //keyboard will on screen
                 updateNextButtonPostion(distanceToBottom: rect.height + 20) //curve: UInt(curve), duration: duration
             }
@@ -98,9 +118,4 @@ class StartBaseViewController: UIViewController {
             make.height.width.equalTo(26)
         }
     }
-}
-
-enum Flow {
-    case registration(RegistrationInfo)
-    case forgotPassword
 }

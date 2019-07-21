@@ -13,43 +13,43 @@ class HUD: UIView {
     weak var activityIndicator: UIActivityIndicatorView!
     weak var container: UIStackView!
     
-    private static let shared = HUD()
+    private static let shared = HUD(frame: UIScreen.main.bounds)
     private var showDate: Date?
+    private var animationDuration: Double = 0.15
     
-    static func show(_ title: String) {
+    static func show(_ title: String, completion: @escaping () -> Void = {}) {
         guard let keyWindow = UIApplication.shared.keyWindow else { return }
-        shared.alpha = 0
-        shared.frame = UIScreen.main.bounds
         shared.label.text = title
+        shared.showDate = Date()
         keyWindow.addSubview(HUD.shared)
-        UIView.animate(withDuration: 0.15, animations: {
+        UIView.animate(withDuration: shared.animationDuration, animations: {
             shared.alpha = 1
-        }) { (_) in
-            shared.showDate = Date()
-        }
+            completion()
+        })
     }
     
-    static func hide(min seconds: TimeInterval = 0) {
-        let s = seconds < 0 ? 0 : seconds
+    static func hide(min seconds: TimeInterval = shared.animationDuration, completion: @escaping () -> Void = {}) {//hide HUD at least min seconds after
+        guard let showDate = shared.showDate else { return }
+        let min = seconds < shared.animationDuration ? shared.animationDuration : seconds
+        let elapse = abs(showDate.timeIntervalSinceNow)
         
-        if s == 0 {//hide immediately
-            UIView.animate(withDuration: 0.15, animations: {
+        if elapse - min >= 0 {//after min seconds, hide immediately
+            UIView.animate(withDuration: shared.animationDuration, animations: {
                 HUD.shared.alpha = 0
             }) { (_) in
                 HUD.shared.removeFromSuperview()
+                completion()
             }
-        } else {
-            
-            
-            Timer.scheduledTimer(withTimeInterval: s, repeats: false) { (timer) in
-                UIView.animate(withDuration: 0.15, animations: {
+        } else { //wait untill min seconds
+            Timer.scheduledTimer(withTimeInterval: min - elapse, repeats: false) { (timer) in
+                UIView.animate(withDuration: shared.animationDuration, animations: {
                     HUD.shared.alpha = 0
                 }) { (_) in
                     HUD.shared.removeFromSuperview()
+                    completion()
                 }
             }
         }
-        
 
     }
     
@@ -66,6 +66,31 @@ class HUD: UIView {
 
 extension HUD {//Helper functions
     
+    private func topWindow() -> UIWindow? {
+        let frontToBackWindows = UIApplication.shared.windows.reversed()
+        if let lastWindow = frontToBackWindows.last {
+            return lastWindow
+        }
+        
+        return nil
+    }
+    
+    private func frontWindow() -> UIWindow? {
+        let frontToBackWindows = UIApplication.shared.windows.reversed()
+        for window in frontToBackWindows {
+            let isWindownOnMainScreen = window.screen == UIScreen.main
+            let isWindowVisible = !window.isHidden && window.alpha > 0
+            let isWindowLevelSupport = window.windowLevel >= UIWindowLevelNormal
+            let isKeyWindow = window.isKeyWindow
+            
+            if isWindownOnMainScreen && isWindowVisible && isWindowLevelSupport && isKeyWindow {
+                return window
+            }
+        }
+        
+        return nil
+    }
+    
     private func setup() {
         let label = TYLabel(frame: CGRect.zero)
         label.font = UIFont.avenirNext(bold: .regular, size: UIFont.largeFontSize)
@@ -73,11 +98,7 @@ extension HUD {//Helper functions
         self.addSubview(label)
         
         let indicator = UIActivityIndicatorView()
-        if #available(iOS 13.0, *) {
-            indicator.activityIndicatorViewStyle = .medium
-        } else {
-            indicator.activityIndicatorViewStyle = .gray
-        }
+        indicator.activityIndicatorViewStyle = .gray
         indicator.startAnimating()
         self.activityIndicator = indicator
         self.addSubview(indicator)
@@ -94,7 +115,8 @@ extension HUD {//Helper functions
             make.height.equalTo(40).priority(.high)
         }
         
-        setupBlurEffect()
+        backgroundColor = UIColor(white: 1, alpha: 0.8)
+//        setupBlurEffect()
     }
     
     private func setupBlurEffect() {
@@ -109,7 +131,7 @@ extension HUD {//Helper functions
             
             insertSubview(blurEffectView, at: 0)
         } else {
-            backgroundColor = UIColor(white: 0.5, alpha: 0.7)
+            backgroundColor = UIColor(white: 1, alpha: 0.8)
         }
     }
 }

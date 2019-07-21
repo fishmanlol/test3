@@ -36,42 +36,44 @@ class PhoneNumberViewController: StartBaseViewController {
     override func nextButtonTapped(sender: TYButton) {
         guard let phoneNumberString = phoneNumberInput.phoneNumber?.formattedString else { return }
         checkPhoneNumberExist(phoneNumberString) { [weak self] (exist) in
-            guard let exist = exist, let weakSelf = self else { return }
+            guard let weakSelf = self else { return }
             
             if exist {
                 switch weakSelf.flow! {
                 case .forgotPassword:
-                    break
+                    weakSelf.sendVerificationCode(to: phoneNumberString)
                 case .registration(_):
+                    weakSelf.stopLoading()
                     weakSelf.displayAlert(title: "User Exists", msg: "if you own this mobile number now, you can continue registration.(All data will be erased after new account registered)", hasCancel: true, actionStyle: .destructive, actionTitle: "Continue") {
+                        weakSelf.startLoading()
                         weakSelf.sendVerificationCode(to: phoneNumberString)
                     }
                 }
             } else {
                 switch weakSelf.flow! {
                 case .forgotPassword:
-                    break
-                case .registration(let registrationInfo)://fix later
-                    let phoneVerificationViewController = PhoneVerificationViewController(flow: .registration(registrationInfo))
-                    registrationInfo.phoneNumber = phoneNumberString
-                    weakSelf.navigationController?.pushViewController(phoneVerificationViewController, animated: false)
-//                    weakSelf.sendVerificationCode(to: phoneNumberString)
+                    weakSelf.stopLoading()
+                    weakSelf.showError("User does not exist")
+                case .registration(_):
+                    weakSelf.sendVerificationCode(to: phoneNumberString)
                 }
             }
         }
     }
+    
+    deinit {
+        print(#function)
+    }
 }
 
 extension PhoneNumberViewController { //Network calling
-    private func checkPhoneNumberExist(_ phoneNumber: String, completion: @escaping (Bool?) -> Void) {
-        nextButton.startAnimating()
-        nextButton.isEnabled = false
+    private func checkPhoneNumberExist(_ phoneNumber: String, completion: @escaping (Bool) -> Void) {
+        startLoading()
         APIService.shared.isPhoneNumberExists(phoneNumber: phoneNumber) { [weak self] (success, error, result) in
+            guard let weakSelf = self else { return }
             guard success, let result = result else {
-                self?.nextButton.stopAnimating()
-                self?.nextButton.isEnabled = true
-                self?.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
-                completion(nil)
+                weakSelf.stopLoading()
+                weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
                 return
             }
             
@@ -86,15 +88,15 @@ extension PhoneNumberViewController { //Network calling
     private func sendVerificationCode(to phoneNumber: String) {
         APIService.shared.sendVerficationCode(phoneNumber: phoneNumber) { [weak self] (success, error) in
             guard let weakSelf = self else { return }
-            weakSelf.nextButton.stopAnimating()
-            weakSelf.nextButton.isEnabled = true
+            weakSelf.stopLoading()
             
             if !success {
                 weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
             } else {
                 switch weakSelf.flow! {
-                case .forgotPassword:
-                    let phoneVerificationViewController = PhoneVerificationViewController(flow: .forgotPassword)
+                case .forgotPassword(let forgotPasswordInfo):
+                    forgotPasswordInfo.phoneNumber = phoneNumber
+                    let phoneVerificationViewController = PhoneVerificationViewController(flow: .forgotPassword(forgotPasswordInfo))
                     weakSelf.navigationController?.pushViewController(phoneVerificationViewController, animated: false)
                 case .registration(let registrationInfo):
                     registrationInfo.phoneNumber = phoneNumber
@@ -139,7 +141,7 @@ extension PhoneNumberViewController { //Helper functions
         
         let phoneNumberInput = TYInput(frame: .zero, type: .phoneNumber)
         phoneNumberInput.labelText = "PHONE NUMBER"
-        phoneNumberInput.labelColor = UIColor(r: 79, g: 170, b: 248)
+        phoneNumberInput.labelColor = .lightBlue
         phoneNumberInput.delegate = self
         self.phoneNumberInput = phoneNumberInput
         view.addSubview(phoneNumberInput)

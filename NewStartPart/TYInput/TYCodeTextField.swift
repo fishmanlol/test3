@@ -71,7 +71,6 @@ class TYCodeTextField: UITextField {
     
     private var defaultCharacterWidth: CGFloat {
         let attributedText = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.font: UIFont.menlo(bold: fontBold, size: fontSize)])
-        print("default character width: \(attributedText.size().width), fontSize: \(fontSize)")
         return attributedText.size().width
     }
     

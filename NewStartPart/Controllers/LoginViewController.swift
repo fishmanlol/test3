@@ -28,7 +28,7 @@ class LoginViewController: StartBaseViewController {
     }
     
     @objc private func forgotPasswordButtonTapped(sender: UIButton) {
-        titleLabel.textColor = .red
+        navigationController?.pushViewController(PhoneNumberViewController(flow: .forgotPassword(ForgotPasswordInfo())), animated: false)
     }
     
     override func backButtonTapped(sender: UIButton) {
@@ -48,6 +48,10 @@ extension LoginViewController: TYInputDelegate {
     func textFieldValueChanged(_ input: TYInput) {
         hideError()//clear error message if displayed
         
+        if nextButton.isLoading {//if loading, don't validate
+            return
+        }
+        
         let password = passwordInput.text ?? ""
         if let _ = phoneNumberInput.phoneNumber, Validator.validPassword(password) { //input valid
             nextButton.isEnabled = true
@@ -60,23 +64,30 @@ extension LoginViewController: TYInputDelegate {
 extension LoginViewController { //Network call
     private func login(phoneNumber: String, password: String) {
         
-        nextButton.startAnimating()
-        nextButton.isEnabled = false
+        startLoading()
         
         APIService.shared.login(phoneNumber: phoneNumber, password: password) { [weak self] (success, error, result) in
-            self?.nextButton.stopAnimating()
-            self?.nextButton.isEnabled = true
+            guard let weakSelf = self else { return }
+            weakSelf.stopLoading()
+            
             
             if !success {
                 if let error = error {
-                    self?.showError(error.errorMessage)
+                    weakSelf.showError(error.errorMessage)
                 } else {
-                    self?.showError(ErrorDetail.generalErrorMessage)
+                    weakSelf.showError(ErrorDetail.generalErrorMessage)
                 }
-                return
+            } else {
+                guard let userId = result?.userId, let jwt = result?.jwtToken, let tvToken = result?.tvToken, let tvId = result?.tvId else {
+                    weakSelf.showError(ErrorDetail.generalErrorMessage)
+                    return
+                }
+                
+                UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
             }
             
-            self?.navigationController?.pushViewController(ViewController(), animated: false)
+            
         }
     }
 }
@@ -108,7 +119,7 @@ extension LoginViewController { //Helper functions
         
         let phoneNumberInput = TYInput(frame: CGRect.zero, type: .phoneNumber)
         phoneNumberInput.delegate = self
-        phoneNumberInput.labelColor = UIColor(r: 79, g: 170, b: 248)
+        phoneNumberInput.labelColor = .lightBlue
         phoneNumberInput.labelText = "MOBILE NUMBER"
         self.phoneNumberInput = phoneNumberInput
         view.addSubview(phoneNumberInput)
@@ -128,7 +139,7 @@ extension LoginViewController { //Helper functions
         view.addSubview(errorLabel)
         
         let forgotPasswordButton = UIButton(type: .system)
-        forgotPasswordButton.setTitleColor(UIColor.blue, for: .normal)
+        forgotPasswordButton.setTitleColor(.lightBlue, for: .normal)
         forgotPasswordButton.setTitle("Forgot your password?", for: .normal)
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         self.forgotPasswordButton = forgotPasswordButton

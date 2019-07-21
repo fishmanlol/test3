@@ -38,7 +38,20 @@ class PhoneVerificationViewController: StartBaseViewController {
     }
     
     override func nextButtonTapped(sender: TYButton) {
-        timerBegin(countDown: countDown)
+        switch flow! {
+        case .forgotPassword(let info):
+            if let phoneNumberString = info.phoneNumber {
+                sendVerificationCode(to: phoneNumberString)
+            } else {
+                showError(ErrorDetail.generalErrorMessage)
+            }
+        case .registration(let info):
+            if let phoneNumberString = info.phoneNumber {
+                sendVerificationCode(to: phoneNumberString)
+            } else {
+                showError(ErrorDetail.generalErrorMessage)
+            }
+        }
     }
     
     deinit {
@@ -48,6 +61,20 @@ class PhoneVerificationViewController: StartBaseViewController {
 }
 
 extension PhoneVerificationViewController { //Network calling
+    private func sendVerificationCode(to phoneNumber: String) {
+        startLoading()
+        APIService.shared.sendVerficationCode(phoneNumber: phoneNumber) { [weak self] (success, error) in
+            guard let weakSelf = self else { return }
+            weakSelf.stopLoading()
+            
+            if !success {
+                weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
+            } else {
+                weakSelf.timerBegin(countDown: weakSelf.countDown)
+            }
+        }
+    }
+    
     private func register(with info: RegistrationInfo) {
         let phoneNumber = info.phoneNumber ?? ""
         let verificationCode = info.phoneVerificationCode ?? ""
@@ -57,26 +84,57 @@ extension PhoneVerificationViewController { //Network calling
         
         HUD.show("Verifying...")
         APIService.shared.register(phoneNumber: phoneNumber, verificationCode: verificationCode, password: password, firstName: firstName, middleName: nil, lastName: lastName) { [weak self] (success, error, result) in
-            guard let weakSelf = self else { return }
-            HUD.hide(min: 1)
-            if !success {
-                weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
-                let _ = weakSelf.codeInput.becomeFirstResponder()
+            guard let weakSelf = self else {
+                HUD.hide()
                 return
             }
-            weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
+            
+            HUD.hide(min: 1, completion: {
+                if success, let userId = result?.userId, let jwt = result?.jwtToken, let tvToken = result?.tvToken, let tvId = result?.tvId {
+                    UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                    weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
+                } else {
+                    weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
+                    let _ = weakSelf.codeInput.becomeFirstResponder()
+                }
+            })
+        }
+    }
+    
+    private func login(with info: ForgotPasswordInfo) { //Here use login to get jwt which is needed in reset password
+        
+        let phoneNumber = info.phoneNumber ?? ""
+        let phoneVerificationCode = info.phoneVerificationCode ?? ""
+        
+        HUD.show("Verifying...")
+        APIService.shared.login(phoneNumber: phoneNumber, verificationCode: phoneVerificationCode) { [weak self] (success, error, result) in
+            guard let weakSelf = self else {
+                HUD.hide()
+                return
+            }
+            
+            HUD.hide(min: 1, completion: {
+                if success, case let Flow.forgotPassword(forgotPasswordInfo) = weakSelf.flow! {
+                    let resetPasswordViewController = ResetPasswordViewController(forgotPasswordInfo: forgotPasswordInfo)
+                    weakSelf.navigationController?.pushViewController(resetPasswordViewController, animated: false)
+                } else {
+                    weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
+                    let _ = weakSelf.codeInput.becomeFirstResponder()
+                }
+            })
         }
     }
 }
 
 extension PhoneVerificationViewController: TYInputDelegate {
     func textFieldDidEndEditing(_ input: TYInput) {
-        switch flow! {
-        case .forgotPassword:
-            break
-        case .registration(let registrationInfo):
-            if let codeTextField = input.textField as? TYCodeTextField,
-                input.text?.count == codeTextField.digits {
+        if let codeTextField = input.textField as? TYCodeTextField,
+            input.text?.count == codeTextField.digits {
+            switch flow! {
+            case .forgotPassword(let forgotPasswordInfo):
+                forgotPasswordInfo.phoneVerificationCode = input.text
+                login(with: forgotPasswordInfo)
+            case .registration(let registrationInfo):
                 registrationInfo.phoneVerificationCode = input.text
                 register(with: registrationInfo)
             }
@@ -141,14 +199,17 @@ extension PhoneVerificationViewController { //Helper functions
         self.descriptionLabel = descriptionLabel
         view.addSubview(descriptionLabel)
         
-        if case let .registration(registrationInfo) = flow! , let phoneNumberString = registrationInfo.phoneNumber {
-            descriptionLabel.text = "Enter the code we send to\n\(phoneNumberString)"
+        switch flow! {
+        case .forgotPassword(let info):
+            descriptionLabel.text = "Enter the code we send to\n\(info.phoneNumber ?? "")"
+        case .registration(let info):
+            descriptionLabel.text = "Enter the code we send to\n\(info.phoneNumber ?? "")"
         }
         
         let codeInput = TYInput(frame: .zero, type: .pinCode)
         (codeInput.textField as? TYCodeTextField)?.fontSize = 20
         codeInput.labelText = "CODE"
-        codeInput.labelColor = UIColor(r: 79, g: 170, b: 248)
+        codeInput.labelColor = .lightBlue
         codeInput.delegate = self
         self.codeInput = codeInput
         view.addSubview(codeInput)

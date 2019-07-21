@@ -11,7 +11,7 @@ import UIKit
 class PasswordViewController: StartBaseViewController {
     
     weak var titleLabel: TYLabel!
-    weak var titleDetailLabel: TYLabel!
+    weak var descriptionLabel: TYLabel!
     weak var errorLabel: TYLabel!
     weak var passwordInput: TYInput!
     weak var container: UILayoutGuide!
@@ -69,14 +69,14 @@ extension PasswordViewController { //Helper functions
         self.titleLabel = titleLabel
         view.addSubview(titleLabel)
         
-        let titleDetailLabel = TYLabel(frame: .zero)
-        titleDetailLabel.text = "Your password should be at least 8 characters"
-        titleDetailLabel.textAlignment = .center
-        titleDetailLabel.numberOfLines = 0
-        titleDetailLabel.textColor = UIColor.darkGray
-        titleDetailLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
-        self.titleDetailLabel = titleDetailLabel
-        view.addSubview(titleDetailLabel)
+        let descriptionLabel = TYLabel(frame: .zero)
+        descriptionLabel.text = "Your password should be at least 8 characters"
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.textColor = UIColor.darkGray
+        descriptionLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.middleFontSize)
+        self.descriptionLabel = descriptionLabel
+        view.addSubview(descriptionLabel)
         
         let passwordInput = TYInput(frame: CGRect.zero, type: .password(hide: false))
         passwordInput.labelText = "PASSWORD"
@@ -106,14 +106,14 @@ extension PasswordViewController { //Helper functions
             make.top.centerX.equalTo(container)
         }
         
-        titleDetailLabel.snp.makeConstraints { (make) in
+        descriptionLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(container)
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
         }
         
         passwordInput.snp.makeConstraints { (make) in
             make.left.right.equalTo(container)
-            make.top.equalTo(titleDetailLabel.snp.bottom).offset(36)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(36)
             make.height.equalTo(60)
         }
         

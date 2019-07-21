@@ -18,7 +18,7 @@ enum InputType: Equatable {
 
 class TYInput: UIView {
     private var secureButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.avenirNext(bold: .regular, size: 15)]
-    private var codeButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor(r: 79, g: 170, b: 248), NSAttributedStringKey.font: UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)]
+    private var codeButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.lightBlue, NSAttributedStringKey.font: UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)]
     
     weak var textField: UITextField!
     weak var delegate: TYInputDelegate?
@@ -33,6 +33,7 @@ class TYInput: UIView {
             updateCodeContainerSize(for: country)
             updateCodeButtonTitle()
             updatePhoneNumberFormat()
+            delegate?.textFieldValueChanged(self)
         }
     }
     
@@ -251,12 +252,13 @@ extension TYInput { //Helper functions
             textField.leftView = codeContainer
             textField.leftViewMode = .always
             textField.keyboardType = .numberPad
-            textField.tintColor = UIColor(r: 79, g: 170, b: 248)
+            
         case .pinCode:
             textField = TYCodeTextField()
             self.textField = textField
         }
         
+        textField.tintColor = .lightBlue
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.addTarget(self, action: #selector(valueChanged), for: .editingChanged)
         textField.delegate = self
