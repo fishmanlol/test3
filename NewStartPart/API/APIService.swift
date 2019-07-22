@@ -166,37 +166,56 @@ class APIService {
             }
     }
     
-        func login(phoneNumber: String, verificationCode: String, completion: @escaping (Bool, ErrorDetail?, RegistrationAndLoginResultData?) -> Void) {
-            let urlString = APIService.baseURLString + APIService.loginWithVerificationCodeURLString
-            let parameters = ["phone_number": phoneNumber, "phone_verification_code": verificationCode]
-    
-            Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
-    
-                if let error = response.error {
-                    print("login with verification code error: ", error)
-                    completion(false, ErrorDetail.general,nil)
-                    return
-                }
-    
-                if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
-                    if result.errorCode == "0" {
-                        print("login with verification code success")
-                        completion(true, nil, result.data)
-                    } else {
-                        print("login with verification code errorr: ", result.errorDetails)
-                        if let errorDetail = result.errorDetails?.first {
-                            completion(false, errorDetail, nil)
-                        } else {
-                            completion(false, ErrorDetail.general, nil)
-                        }
-                    }
-    
+    func login(phoneNumber: String, verificationCode: String, completion: @escaping (Bool, ErrorDetail?, RegistrationAndLoginResultData?) -> Void) {
+        let urlString = APIService.baseURLString + APIService.loginWithVerificationCodeURLString
+        let parameters = ["phone_number": phoneNumber, "phone_verification_code": verificationCode]
+
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+
+            if let error = response.error {
+                print("login with verification code error: ", error)
+                completion(false, ErrorDetail.general,nil)
+                return
+            }
+
+            if let dict = response.value as? [String: Any], let result = AiTmedResult<RegistrationAndLoginResultData>(dict: dict) {
+                if result.errorCode == "0" {
+                    print("login with verification code success")
+                    completion(true, nil, result.data)
                 } else {
-                    print("login with verification code parse error: ", response.value as? [String: Any])
-                    completion(false, ErrorDetail.general, nil)
+                    print("login with verification code errorr: ", result.errorDetails)
+                    if let errorDetail = result.errorDetails?.first {
+                        completion(false, errorDetail, nil)
+                    } else {
+                        completion(false, ErrorDetail.general, nil)
+                    }
                 }
+
+            } else {
+                print("login with verification code parse error: ", response.value as? [String: Any])
+                completion(false, ErrorDetail.general, nil)
             }
         }
+    }
+    
+    func resetPassword(phoneNumber: String, verificationCode: String, password: String, completion: @escaping (Bool) -> Void) {
+        let urlString = APIService.baseURLString + APIService.resetPasswordURLString
+        let parameters = ["phone_number": phoneNumber,
+                          "phone_verification_code": verificationCode,
+                          "password": password]
+        let jwt = "JWT \(UserDefaults.standard.string(forKey: UserDefaults.JWTKey) ?? "")"
+        Alamofire.request(urlString, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": jwt]).responseString { (response) in
+            
+            switch response.result {
+            case .success(_):
+                print("reset password success")
+                completion(true)
+            case .failure(let error):
+                print("reset password error: ", error)
+                completion(false)
+            }
+        }
+    }
 }
     
 
@@ -316,7 +335,7 @@ class APIService {
 //                          "password": password]
 //        let jwt = "JWT \(UserDefaults.standard.string(forKey: UserDefaults.JWTKey) ?? "")"
 //        Alamofire.request(urlString, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": jwt]).responseString { (response) in
-//            
+//
 //            switch response.result {
 //            case .success(_):
 //                print("reset password success")
@@ -327,7 +346,7 @@ class APIService {
 //            }
 //        }
 //    }
-//    
+//
 //    func isPhoneNumberExists(phoneNumber: String, completion: @escaping (Error?, UserExistsResultData?) -> Void) {
 //        let urlStirng = APIService.baseURLString + APIService.userExistsURLString
 //        let parameters = ["phone_number": phoneNumber]

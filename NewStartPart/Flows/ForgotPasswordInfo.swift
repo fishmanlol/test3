@@ -11,4 +11,5 @@ import Foundation
 class ForgotPasswordInfo {
     var phoneNumber: String?
     var phoneVerificationCode: String?
+    var password: String?
 }

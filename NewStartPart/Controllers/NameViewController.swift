@@ -64,6 +64,7 @@ extension NameViewController {//Helper functions
         firstNameInput.labelText = "FIRST NAME"
         firstNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.decimalDigits)
         firstNameInput.delegate = self
+        firstNameInput.textField.autocorrectionType = .no
         self.firstNameInput = firstNameInput
         view.addSubview(firstNameInput)
         
@@ -71,11 +72,13 @@ extension NameViewController {//Helper functions
         lastNameInput.labelText = "LAST NAME"
         lastNameInput.disallowedCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.decimalDigits)
         lastNameInput.delegate = self
+        lastNameInput.textField.autocorrectionType = .no
         self.lastNameInput = lastNameInput
         view.addSubview(lastNameInput)
         
         let agreementLabel = TYLabel(frame: CGRect.zero, clickable: true)
         agreementLabel.numberOfLines = 0
+        agreementLabel.kern = 0.5
         agreementLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
         let agreementString = "By tapping Sign Up & Accept, you acknowledge that you have read the Privacy Policy and agree to the Term of Service."
         agreementLabel.text = agreementString

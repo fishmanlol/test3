@@ -14,6 +14,7 @@
 		1037211E22E3F67C0054C3A4 /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1037211D22E3F67C0054C3A4 /* Flow.swift */; };
 		1037212022E401570054C3A4 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1037211F22E401570054C3A4 /* ResetPasswordViewController.swift */; };
 		1037212222E416550054C3A4 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1037212122E416550054C3A4 /* Int.swift */; };
+		10845C5422E5261400BE9F3C /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10845C5322E5261400BE9F3C /* FinishViewController.swift */; };
 		108B648A22E24747002993BC /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108B648922E24747002993BC /* HUD.swift */; };
 		10B779CA22D4E0B6004E1532 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779C922D4E0B6004E1532 /* Country.swift */; };
 		10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B779CB22D4EB27004E1532 /* CountryListController.swift */; };
@@ -60,6 +61,7 @@
 		1037211D22E3F67C0054C3A4 /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
 		1037211F22E401570054C3A4 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		1037212122E416550054C3A4 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		10845C5322E5261400BE9F3C /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 		108B648922E24747002993BC /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		10B779C922D4E0B6004E1532 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		10B779CB22D4EB27004E1532 /* CountryListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryListController.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				8ED0414D22DE38B300BA795F /* LoginViewController.swift */,
 				8ED0415022DE39ED00BA795F /* StartBaseViewController.swift */,
 				1037211F22E401570054C3A4 /* ResetPasswordViewController.swift */,
+				10845C5322E5261400BE9F3C /* FinishViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				8E2DBF1C22CD25DA00EC71FD /* ViewController.swift in Sources */,
 				8EFD669522DFE20600FCABD7 /* PortalViewController.swift in Sources */,
 				8ED0414E22DE38B300BA795F /* LoginViewController.swift in Sources */,
+				10845C5422E5261400BE9F3C /* FinishViewController.swift in Sources */,
 				10B779CC22D4EB27004E1532 /* CountryListController.swift in Sources */,
 				108B648A22E24747002993BC /* HUD.swift in Sources */,
 				8E227EA722D7BB8F009D4CA1 /* NotificationName.swift in Sources */,

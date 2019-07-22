@@ -65,12 +65,12 @@ extension PhoneVerificationViewController { //Network calling
         startLoading()
         APIService.shared.sendVerficationCode(phoneNumber: phoneNumber) { [weak self] (success, error) in
             guard let weakSelf = self else { return }
-            weakSelf.stopLoading()
-            
-            if !success {
-                weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
-            } else {
-                weakSelf.timerBegin(countDown: weakSelf.countDown)
+            weakSelf.stopLoading {
+                if !success {
+                    weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
+                } else {
+                    weakSelf.timerBegin(countDown: weakSelf.countDown)
+                }
             }
         }
     }
@@ -92,7 +92,8 @@ extension PhoneVerificationViewController { //Network calling
             HUD.hide(min: 1, completion: {
                 if success, let userId = result?.userId, let jwt = result?.jwtToken, let tvToken = result?.tvToken, let tvId = result?.tvId {
                     UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
-                    weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
+                    let finishViewController = FinishViewController(flow: weakSelf.flow)
+                    weakSelf.navigationController?.pushViewController(finishViewController, animated: false)
                 } else {
                     weakSelf.showError(error?.errorMessage ?? ErrorDetail.generalErrorMessage)
                     let _ = weakSelf.codeInput.becomeFirstResponder()
@@ -217,6 +218,7 @@ extension PhoneVerificationViewController { //Helper functions
         let errorLabel = TYLabel(frame: .zero)
         errorLabel.textColor = UIColor.red
         errorLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
+        errorLabel.kern = 0.5
         self.errorLabel = errorLabel
         view.addSubview(errorLabel)
         

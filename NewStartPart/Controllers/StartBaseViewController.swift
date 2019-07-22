@@ -13,7 +13,9 @@ class StartBaseViewController: UIViewController {
     weak var backButton: UIButton!
     weak var nextButton: TYButton!
     
-    private  var defaultDistanceToBottom: CGFloat = 60
+    private var defaultDistanceToBottom: CGFloat = 60
+    private var startLoadingDate: Date?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +24,7 @@ class StartBaseViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom)
         popupKeyboardIfNeeded()
     }
@@ -35,28 +37,36 @@ class StartBaseViewController: UIViewController {
     
     func startLoading() {
         //1.Disable next button
-        //32 Animate nextbutton
+        //2. Animate nextbutton
         nextButton.isEnabled = false
         nextButton.startAnimating()
+        startLoadingDate = Date()
     }
     
-    func stopLoading() {
+    func stopLoading(delay: Bool = true, completion: @escaping () -> Void = {}) { //default delay true, in case the time between start loading and stop loading too short, it will make the animation ugly
         //1. Stop animating nextbutton
         //2. Enable next button
-        nextButton.stopAnimating()
-        nextButton.isEnabled = true
+        let min = 0.35
+        if delay,
+            let startDate = startLoadingDate,
+            abs(startDate.timeIntervalSinceNow) < min {
+            Timer.scheduledTimer(withTimeInterval: min - abs(startDate.timeIntervalSinceNow), repeats: false) { (_) in
+                self.nextButton.stopAnimating()
+                self.nextButton.isEnabled = true
+                completion()
+            }
+        } else {
+            self.nextButton.stopAnimating()
+            self.nextButton.isEnabled = true
+            completion()
+        }
     }
     
     @objc func keyboardFrameWillChange(notification: Notification) {
-        if let rect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let _ = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.intValue,
-            let _ = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
-            if !(rect.minY < UIScreen.main.bounds.maxY) { //keyboard will out of screen
-                updateNextButtonPostion(distanceToBottom: defaultDistanceToBottom)
-            } else { //keyboard will on screen
-                updateNextButtonPostion(distanceToBottom: rect.height + 20) //curve: UInt(curve), duration: duration
+        if let endRect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            endRect.minY < UIScreen.main.bounds.maxY { //Keyboard on the screen
+                updateNextButtonPostion(distanceToBottom: endRect.height + 20)
             }
-        }
     }
     
     @objc func backButtonTapped(sender: UIButton) {

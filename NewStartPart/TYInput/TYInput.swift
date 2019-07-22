@@ -17,7 +17,7 @@ enum InputType: Equatable {
 }
 
 class TYInput: UIView {
-    private var secureButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.avenirNext(bold: .regular, size: 15)]
+    private var secureButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.darkGray, NSAttributedStringKey.font: UIFont.avenirNext(bold: .regular, size: 15)]
     private var codeButtonAttributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.lightBlue, NSAttributedStringKey.font: UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)]
     
     weak var textField: UITextField!
@@ -142,7 +142,7 @@ class TYInput: UIView {
     
     lazy var label: TYLabel = {
         let label = TYLabel(frame: CGRect.zero)
-        label.font = UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize)
+        label.font = UIFont.avenirNext(bold: .medium, size: UIFont.middleFontSize - 2)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.kern = 1.2
         label.textColor = UIColor.drakGray
@@ -198,9 +198,9 @@ class TYInput: UIView {
         super.init(coder: aDecoder)
     }
     
-    @objc private func secureButtonTapped(sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        hideText(sender.isSelected)
+    @objc func secureButtonTapped() {
+        secureButton.isSelected = !secureButton.isSelected
+        hideText(secureButton.isSelected)
     }
     
     @objc private func codeButtonTapped() {
@@ -242,7 +242,7 @@ extension TYInput { //Helper functions
             textField.rightViewMode = .always
             
             if hide {
-                secureButtonTapped(sender: secureButton)
+                secureButtonTapped()
             }
         case .phoneNumber:
             textField = TYTextField()

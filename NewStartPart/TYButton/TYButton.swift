@@ -10,6 +10,7 @@ import UIKit
 
 class TYButton: UIButton {
     private var attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.kern: 1]
+    private var animationStartDate: Date?
     
     var disabledBackgroudColor: UIColor = UIColor.lightGray
     
@@ -30,6 +31,7 @@ class TYButton: UIButton {
         
         spin.startAnimating()
         hideTitleLabel()
+        animationStartDate = Date()
     }
     
     public func stopAnimating() {
@@ -37,6 +39,7 @@ class TYButton: UIButton {
         
         spin.stopAnimating()
         restoreTitleLabel()
+        
     }
     
     override func setTitle(_ title: String?, for state: UIControl.State) {

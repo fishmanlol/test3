@@ -34,13 +34,71 @@ class ResetPasswordViewController: StartBaseViewController {
         
         setup()
     }
+    
+    override func nextButtonTapped(sender: TYButton) {
+        guard let password = passwordInput.text, let confirm = confirmInput.text else {
+            nextButton.isEnabled = false
+            return
+        }
+        
+        if isMatch(password: password, confirm: confirm) {
+            forgotPasswordInfo.password = password
+            resetPassword(forgotPasswordInfo: forgotPasswordInfo)
+        } else {
+            passwordInput.secureButtonTapped()
+            confirmInput.secureButtonTapped()
+            showError("Password does not match")
+        }
+    }
+}
+
+extension ResetPasswordViewController { //Network calling
+    private func resetPassword(forgotPasswordInfo: ForgotPasswordInfo) {
+        let phoneNumber = forgotPasswordInfo.phoneNumber ?? ""
+        let verificationCode = forgotPasswordInfo.phoneVerificationCode ?? ""
+        let password = forgotPasswordInfo.password ?? ""
+        
+        startLoading()
+        APIService.shared.resetPassword(phoneNumber: phoneNumber, verificationCode: verificationCode, password: password) { [weak self] (success) in
+            guard let weakSelf = self else { return }
+            weakSelf.stopLoading()
+            if success {
+                let finishViewController = FinishViewController(flow: .forgotPassword(forgotPasswordInfo))
+                weakSelf.navigationController?.pushViewController(finishViewController, animated: false)
+            } else {
+                weakSelf.showError(ErrorDetail.generalErrorMessage)
+            }
+        }
+    }
 }
 
 extension ResetPasswordViewController: TYInputDelegate {
-    
+    func textFieldValueChanged(_ input: TYInput) {
+        hideError()
+        
+        let password = passwordInput.text ?? ""
+        let confirmPassword = confirmInput.text ?? ""
+        if Validator.validPassword(password) && Validator.validPassword(confirmPassword) {
+            nextButton.isEnabled = true
+        } else {
+            nextButton.isEnabled = false
+        }
+    }
 }
 
 extension ResetPasswordViewController { //Helper functions
+    private func showError(_ error: String) {
+        errorLabel.text = error
+    }
+    
+    private func hideError() {
+        errorLabel.text = ""
+    }
+    
+    private func isMatch(password: String, confirm: String) -> Bool {
+        return password.elementsEqual(confirm)
+    }
+    
     private func setup() {
         let titleLabel = TYLabel(frame: .zero)
         titleLabel.text = "New Password"
@@ -76,6 +134,7 @@ extension ResetPasswordViewController { //Helper functions
         errorLabel.numberOfLines = 0
         errorLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
         errorLabel.textColor = .red
+        errorLabel.kern = 0.5
         self.errorLabel = errorLabel
         view.addSubview(errorLabel)
         

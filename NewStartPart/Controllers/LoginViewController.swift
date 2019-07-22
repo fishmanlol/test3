@@ -37,6 +37,7 @@ class LoginViewController: StartBaseViewController {
     
     override func nextButtonTapped(sender: TYButton) {
         guard let phoneNumberString = phoneNumberInput.phoneNumber?.formattedString, let password = passwordInput.text else {
+            nextButton.isEnabled = true
             return
         }
         
@@ -68,26 +69,23 @@ extension LoginViewController { //Network call
         
         APIService.shared.login(phoneNumber: phoneNumber, password: password) { [weak self] (success, error, result) in
             guard let weakSelf = self else { return }
-            weakSelf.stopLoading()
-            
-            
-            if !success {
-                if let error = error {
-                    weakSelf.showError(error.errorMessage)
+            weakSelf.stopLoading {
+                if !success {
+                    if let error = error {
+                        weakSelf.showError(error.errorMessage)
+                    } else {
+                        weakSelf.showError(ErrorDetail.generalErrorMessage)
+                    }
                 } else {
-                    weakSelf.showError(ErrorDetail.generalErrorMessage)
+                    guard let userId = result?.userId, let jwt = result?.jwtToken, let tvToken = result?.tvToken, let tvId = result?.tvId else {
+                        weakSelf.showError(ErrorDetail.generalErrorMessage)
+                        return
+                    }
+                    
+                    UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
+                    weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
                 }
-            } else {
-                guard let userId = result?.userId, let jwt = result?.jwtToken, let tvToken = result?.tvToken, let tvId = result?.tvId else {
-                    weakSelf.showError(ErrorDetail.generalErrorMessage)
-                    return
-                }
-                
-                UserDefaults.save(userId: userId, jwt: jwt, tvToken: tvToken, tvId: tvId)
-                weakSelf.navigationController?.pushViewController(ViewController(), animated: false)
             }
-            
-            
         }
     }
 }
@@ -135,6 +133,7 @@ extension LoginViewController { //Helper functions
         errorLabel.font = UIFont.avenirNext(bold: .regular, size: UIFont.smallFontSize)
         errorLabel.textColor = UIColor.red
         errorLabel.numberOfLines = 0
+        errorLabel.kern = 0.5
         self.errorLabel = errorLabel
         view.addSubview(errorLabel)
         

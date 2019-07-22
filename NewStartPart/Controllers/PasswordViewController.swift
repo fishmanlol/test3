@@ -83,11 +83,14 @@ extension PasswordViewController { //Helper functions
         let allowedCharacterSet = CharacterSet.alphanumerics.union(CharacterSet.init(charactersIn: #"?<>.;:[]{}-=_+~`!@#$%^&*(),/'\|"#))
         passwordInput.disallowedCharacterSet = allowedCharacterSet.inverted
         passwordInput.delegate = self
+        passwordInput.textField.autocorrectionType = .no
+        passwordInput.textField.autocapitalizationType = .none
         self.passwordInput = passwordInput
         view.addSubview(passwordInput)
         
         let errorLabel = TYLabel(frame: .zero)
         errorLabel.numberOfLines = 0
+        errorLabel.kern = 0.5
         errorLabel.textColor = UIColor.red
         self.errorLabel = errorLabel
         view.addSubview(errorLabel)
